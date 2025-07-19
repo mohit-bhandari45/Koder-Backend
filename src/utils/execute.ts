@@ -40,7 +40,7 @@ async function executeCode(code: string, language: string): Promise<string> {
             command = `node ${filePath}`;
             break;
         case "python":
-            command = `python ${filePath}`;
+            command = `python3 ${filePath}`;
             break;
         case "cpp":
             command = `g++ ${filePath} -o ${filePath}.out && ${filePath}.out`;
