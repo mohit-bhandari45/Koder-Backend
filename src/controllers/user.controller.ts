@@ -23,16 +23,16 @@ const addUsernameHandler = async (req: Request, res: Response) => {
         return res.status(400).json({ message: "Username already set. Use PATCH to update." });
     }
 
-    console.log(current)
-
+    
     // Check if username is taken
     const existing = await User.findOne({ username });
     if (existing) {
         return res.status(409).json({ message: "Username already taken" });
     }
-
+    
     try {
         const updatedUser = await User.findByIdAndUpdate(user._id, { username }, { new: true });
+        console.log(updatedUser);
         // console.log(updatedUser);
         res.status(200).json({ message: "Username set successfully", data: updatedUser });
     } catch (err) {

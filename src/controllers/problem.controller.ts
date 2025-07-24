@@ -18,7 +18,7 @@ async function getAllProblemsHandler(req: Request, res: Response) {
         const totalProblems = await ProblemModel.countDocuments();
         res.json({
             message: "Problems fetched successfully",
-            problems,
+            data: problems,
             currentPage: page,
             totalPages: Math.ceil(totalProblems / limit),
         });
@@ -70,7 +70,7 @@ async function getProblemByIdHandler(req: Request, res: Response): Promise<void>
             res.status(404).json({ message: "Problem not found" });
             return;
         }
-        res.status(200).json({ message: "Problem fetched successfully", problem });
+        res.status(200).json({ message: "Problem fetched successfully", data: problem });
         return;
     } catch (error) {
         res.status(500).json({ message: "Internal server error" });

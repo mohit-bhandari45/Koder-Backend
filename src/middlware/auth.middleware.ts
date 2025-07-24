@@ -16,7 +16,6 @@ export function authCheck(req: Request, res: Response, next: NextFunction) {
     return res.status(401).json({ message: "No token provided" });
   }
 
-
   try {
     const user = verifyAccessToken(token);
     req.user = user as IUser;
