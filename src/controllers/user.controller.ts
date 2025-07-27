@@ -32,8 +32,6 @@ const addUsernameHandler = async (req: Request, res: Response) => {
     
     try {
         const updatedUser = await User.findByIdAndUpdate(user._id, { username }, { new: true });
-        console.log(updatedUser);
-        // console.log(updatedUser);
         res.status(200).json({ message: "Username set successfully", data: updatedUser });
     } catch (err) {
         res.status(500).json({ message: "Server error" });

@@ -5,10 +5,6 @@ function parseInputToStdin(rawInput: string): string {
     if (!match) return "";
     const nums = match[1].split(",").map(n => n.trim()).join(" ");
     const target = match[2].trim();
-    console.log("\n")
-    console.log(rawInput);
-    console.log(`${nums}\n${target}`);
-    console.log("\n")
     return `${nums}\n${target}`;
 }
 
@@ -536,7 +532,6 @@ const TestCases: ITestCase[] =
 
 function findAllTwoSumAnswers(nums: number[], target: number): string[] {
     const answers: string[] = [];
-    const seen = new Map<number, number>();
     for (let i = 0; i < nums.length; i++) {
         for (let j = i + 1; j < nums.length; j++) {
             if (nums[i] + nums[j] === target) {
@@ -570,7 +565,6 @@ const processedTestCases = TestCases.map(tc => {
 });
 
 const TwoSumProblem = {
-    id: "two-sum",
     title: "Two Sum",
     description: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 You may assume that each input would have exactly one solution, and you may not use the same element twice.`,
@@ -606,7 +600,88 @@ public static int[] twoSum(int[] nums, int target) {
 vector<int> twoSum(vector<int>& nums, int target) {
     // Write your code here
     return {};
-}`.trim()
+}`.trim(),
+
+        c: `
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    // Write your code here
+    *returnSize = 0;
+    return NULL;
+}`.trim(),
+
+        go: `
+func twoSum(nums []int, target int) []int {
+    // Write your code here
+    return []int{}
+}`.trim(),
+
+        ruby: `
+def twoSum(nums, target)
+  # Write your code here
+end`.trim(),
+
+        rust: `
+fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    // Write your code here
+    Vec::new()
+}`.trim(),
+
+        kotlin: `
+fun twoSum(nums: IntArray, target: Int): IntArray {
+    // Write your code here
+    return intArrayOf()
+}`.trim(),
+
+        swift: `
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    // Write your code here
+    return []
+}`.trim(),
+
+        perl: `
+sub twoSum {
+    my ($nums_ref, $target) = @_;
+    # Write your code here
+    return ();
+}`.trim(),
+
+        scala: `
+def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    // Write your code here
+    Array()
+}`.trim(),
+
+        haskell: `
+twoSum :: [Int] -> Int -> [Int]
+twoSum nums target = []
+`.trim(),
+
+        csharp: `
+public static int[] TwoSum(int[] nums, int target) {
+    // Write your code here
+    return new int[] {};
+}`.trim(),
+
+        r: `
+twoSum <- function(nums, target) {
+  # Write your code here
+  return(c())
+}`.trim(),
+
+        dart: `
+List<int> twoSum(List<int> nums, int target) {
+  // Write your code here
+  return [];
+}`.trim(),
+
+        elixir: `
+defmodule Solution do
+  def two_sum(nums, target) do
+    # Write your code here
+    []
+  end
+end
+`.trim(),
     },
 
     solution: {
@@ -655,8 +730,185 @@ vector<int> twoSum(vector<int>& nums, int target) {
         map[nums[i]] = i;
     }
     return {};
-}`.trim()
+}`.trim(),
+
+        c: `
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    int* result = malloc(2 * sizeof(int));
+    for (int i = 0; i < numsSize; ++i) {
+        for (int j = i + 1; j < numsSize; ++j) {
+            if (nums[i] + nums[j] == target) {
+                result[0] = i;
+                result[1] = j;
+                *returnSize = 2;
+                return result;
+            }
+        }
+    }
+    *returnSize = 0;
+    return NULL;
+}`.trim(),
+
+        go: `
+func twoSum(nums []int, target int) []int {
+    m := make(map[int]int)
+    for i, num := range nums {
+        if j, ok := m[target - num]; ok {
+            return []int{j, i}
+        }
+        m[num] = i
+    }
+    return []int{}
+}`.trim(),
+
+        ruby: `
+def twoSum(nums, target)
+  map = {}
+  nums.each_with_index do |num, i|
+    if map[target - num]
+      return [map[target - num], i]
+    end
+    map[num] = i
+  end
+end`.trim(),
+
+        rust: `
+fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    use std::collections::HashMap;
+    let mut map = HashMap::new();
+    for (i, &num) in nums.iter().enumerate() {
+        if let Some(&j) = map.get(&(target - num)) {
+            return vec![j as i32, i as i32];
+        }
+        map.insert(num, i);
+    }
+    vec![]
+}`.trim(),
+
+        kotlin: `
+fun twoSum(nums: IntArray, target: Int): IntArray {
+    val map = mutableMapOf<Int, Int>()
+    for (i in nums.indices) {
+        val complement = target - nums[i]
+        if (map.containsKey(complement)) {
+            return intArrayOf(map[complement]!!, i)
+        }
+        map[nums[i]] = i
+    }
+    return intArrayOf()
+}`.trim(),
+
+        swift: `
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    var map = [Int: Int]()
+    for (i, num) in nums.enumerated() {
+        if let j = map[target - num] {
+            return [j, i]
+        }
+        map[num] = i
+    }
+    return []
+}`.trim(),
+
+        perl: `
+sub twoSum {
+    my ($nums_ref, $target) = @_;
+    my %map;
+    for my $i (0 .. @$nums_ref - 1) {
+        my $num = $nums_ref->[$i];
+        my $complement = $target - $num;
+        return ($map{$complement}, $i) if exists $map{$complement};
+        $map{$num} = $i;
+    }
+    return ();
+}`.trim(),
+
+        scala: `
+def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+    val map = scala.collection.mutable.Map[Int, Int]()
+    for (i <- nums.indices) {
+        val complement = target - nums(i)
+        if (map.contains(complement)) {
+            return Array(map(complement), i)
+        }
+        map(nums(i)) = i
+    }
+    Array()
+}`.trim(),
+
+        haskell: `
+import qualified Data.Map as M
+
+twoSum :: [Int] -> Int -> [Int]
+twoSum nums target = go nums M.empty 0
+  where
+    go [] _ _ = []
+    go (x:xs) m i =
+      case M.lookup (target - x) m of
+        Just j -> [j, i]
+        Nothing -> go xs (M.insert x i m) (i + 1)
+`.trim(),
+
+        csharp: `
+public static int[] TwoSum(int[] nums, int target) {
+    var map = new Dictionary<int, int>();
+    for (int i = 0; i < nums.Length; i++) {
+        int complement = target - nums[i];
+        if (map.ContainsKey(complement)) {
+            return new int[] { map[complement], i };
+        }
+        map[nums[i]] = i;
+    }
+    return new int[] {};
+}`.trim(),
+
+        r: `
+twoSum <- function(nums, target) {
+  map <- list()
+  for (i in seq_along(nums)) {
+    complement <- target - nums[i]
+    if (!is.null(map[[as.character(complement)]])) {
+      return(c(map[[as.character(complement)]], i - 1))
+    }
+    map[[as.character(nums[i])]] <- i - 1
+  }
+  return(c())
+}`.trim(),
+
+        dart: `
+List<int> twoSum(List<int> nums, int target) {
+  final map = <int, int>{};
+  for (int i = 0; i < nums.length; i++) {
+    final complement = target - nums[i];
+    if (map.containsKey(complement)) {
+      return [map[complement]!, i];
+    }
+    map[nums[i]] = i;
+  }
+  return [];
+}`.trim(),
+
+        elixir: `
+defmodule Solution do
+  def two_sum(nums, target) do
+    map = Enum.with_index(nums) |> Enum.reduce(%{}, fn {num, i}, acc ->
+      Map.put(acc, num, i)
+    end)
+
+    Enum.with_index(nums)
+    |> Enum.find_value([], fn {num, i} ->
+      complement = target - num
+      case map[complement] do
+        nil -> nil
+        j when j != i -> [j, i]
+        _ -> nil
+      end
+    end)
+  end
+end
+`.trim()
     }
 };
+
 
 export default TwoSumProblem
