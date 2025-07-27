@@ -11,10 +11,8 @@ export interface ITestCase {
   stdin?: string;
 }
 
-export interface IExample {
-  input: string;
-  output: string;
-  explanation?: string;
+export interface ILanguageCodeMap {
+  [language: string]: string; // e.g., javascript, python, java, etc.
 }
 
 export interface IProblem {
@@ -26,8 +24,11 @@ export interface IProblem {
   examples: IExample[];
   testCases: ITestCase[];
   constraints: string[];
-  starterCode: string;
-  solution?: string;
+
+  starterCode: ILanguageCodeMap; // updated from string → per-language object
+  solution?: ILanguageCodeMap;   // updated from string → per-language object
+  functionName: string;          // recommended to extract the user-defined function name
+
   createdAt?: Date;
   updatedAt?: Date;
 }
