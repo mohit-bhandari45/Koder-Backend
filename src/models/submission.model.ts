@@ -25,8 +25,8 @@ const submissionSchema = new Schema<ISubmission>(
             enum: ["Pending", "Accepted", "Rejected"],
             default: "Pending",
         },
-        runtime: { type: Number },
-        memory: { type: Number },
+        // runtime: { type: Number },
+        // memory: { type: Number },
     },
     { timestamps: true }
 );

@@ -16,16 +16,18 @@ const addSubmissionHandler = async (req: Request, res: Response) => {
         const user = req.user as IUser | undefined;
         const userId = user?._id;
         const { problemId, code, language, status } = req.body;
+
         if (!userId || !problemId || !code || !language) {
             return res.status(400).json({ message: "Missing required fields" });
         }
+
         const submission = new SubmissionModel({
             userId,
             problemId,
             code,
             language,
             status: status,
-        });
+        }); 
         await submission.save();
         res.status(201).json({ message: "Submission successful", id: submission._id });
     } catch (error) {
@@ -33,12 +35,34 @@ const addSubmissionHandler = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * Get All Submission for a problem
+ * @param req - Request object
+ * @param res - Response object
+ * @returns - JSON response with all submissions
+ * @path /api/submission/problem/:problemId/all
+ * @method GET
+ */
 export const getAllSubmissions = async (req: Request, res: Response) => {
+    const user = req.user as IUser | undefined;
+    const userId = user?._id;
+    const { problemId } = req.params;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
     try {
-        const submissions = await SubmissionModel.find()
+        const submissions = await SubmissionModel.find({
+            userId,
+            problemId,
+        })
             .populate("userId", "fullname username email")
-            .populate("problemId", "title difficulty");
+            .populate("problemId", "title difficulty")
+            .sort({ createdAt: -1 });
+
         res.status(200).json(submissions);
+        return;
     } catch (error) {
         res.status(500).json({ message: "Server error", error });
     }

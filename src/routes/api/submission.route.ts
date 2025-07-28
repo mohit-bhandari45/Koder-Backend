@@ -4,7 +4,7 @@ import { addSubmissionHandler, getAllSubmissions, getSubmissionById } from "../.
 const router = Router();
 
 router.post("/add", addSubmissionHandler);
-router.get("/submissions", getAllSubmissions);
+router.get("/problem/:problemId/all", getAllSubmissions);
 router.get("/submissions/:id", getSubmissionById);
 
 export default router;
