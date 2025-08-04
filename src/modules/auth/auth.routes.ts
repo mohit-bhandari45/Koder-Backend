@@ -2,17 +2,21 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from ".
 import { Router } from "express";
 import passport from "passport";
 import { IUser } from "../../types/userTypes";
-import { refreshTokenHandler } from "../../controllers/auth.controller";
+import { loginHandler, refreshTokenHandler, signupHandler, verifyEmailHandler } from "./auth.controller";
+import MailService from "./email.service";
 
 const router = Router();
 
+router.post("/signup", signupHandler);
+router.post("/login", loginHandler);
+router.post("/verify", verifyEmailHandler);
 router.post("/refresh", refreshTokenHandler);
 
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-  
+
 router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] })
@@ -21,13 +25,14 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google/failure", session: false }),
-  (req, res) => {
+  async (req, res) => {
     const user = req.user as IUser;
     if (!user) {
       return res.redirect("/auth/google/failure");
     }
     const accessToken = generateAccessToken(user as any);
     const refreshToken = generateRefreshToken(user as any);
+    await MailService.sendWelcomeEmail(user.email);
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -59,6 +64,8 @@ router.get(
     }
     const accessToken = generateAccessToken(user as any);
     const refreshToken = generateRefreshToken(user as any);
+
+    await MailService.sendWelcomeEmail(user.email);
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,

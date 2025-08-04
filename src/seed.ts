@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import UserModel from "./models/user.model";
+import UserModel from "./modules/auth/user.model";
 import ProblemModel from "./models/problem.model";
 import TwoSumProblem from "./problems/twosum";
 

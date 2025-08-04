@@ -1,6 +1,6 @@
 import express from "express";
 import publicRoutes from "./routes/public";
-import authRoutes from "./routes/auth";
+import authRoutes from "./modules/auth/auth.routes";
 import cors from "cors";
 import { initializePassport } from "./config/passpost";
 import { connectDatabase } from "./config/database";
@@ -22,8 +22,8 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
+app.use("/auth", authRoutes);  // auth routes
 app.use("/", publicRoutes);
-app.use("/auth", authRoutes);
 app.use("/api", apiRoutes);
 
 export default app;

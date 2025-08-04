@@ -2,7 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Strategy as GithubStrategy } from "passport-github2";
 import axios from "axios";
-import User from "../models/user.model";
+import User from "../modules/auth/user.model";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
@@ -10,6 +10,7 @@ const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL || "";
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || "";
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || "";
 const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL || "";
+
 export function initializePassport() {
   passport.use(
     new GoogleStrategy(
@@ -21,12 +22,17 @@ export function initializePassport() {
       async (accessToken, refreshToken, profile, done) => {
         try {
           let user = await User.findOne({ email: profile.emails?.[0]?.value });
+          if (user && user.googleId !== profile.id) {
+            user.googleId = profile.id;
+            await user.save();
+          }
+
           if (!user) {
             user = await User.create({
               fullname: profile.displayName,
               email: profile.emails?.[0]?.value || "",
-              password: "google-oauth",
               profilepicture: profile.photos?.[0]?.value,
+              googleId: profile.id,
             });
           }
           return done(null, user);
@@ -44,7 +50,7 @@ export function initializePassport() {
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: GITHUB_CALLBACK_URL
       },
-      async (accessToken: any, refreshToken: any, profile: { emails: { value: any; }[]; displayName: any; username: any; photos: { value: any; }[]; }, done: (arg0: unknown, arg1: any) => any) => {
+      async (accessToken: any, refreshToken: any, profile: { emails: { value: any; }[]; displayName: any; id: string, username: any; photos: { value: any; }[]; }, done: (arg0: unknown, arg1: any) => any) => {
         try {
           // 👇 Fetch verified primary email
           const { data: emails } = await axios.get("https://api.github.com/user/emails", {
@@ -61,12 +67,17 @@ export function initializePassport() {
 
           let user = await User.findOne({ email });
 
+          if (user && user.githubId !== profile.id) {
+            user.githubId = profile.id;
+            await user.save();
+          }
+
           if (!user) {
             user = await User.create({
               fullname: profile.displayName || profile.username,
               email,
-              password: "github-oauth",
               profilepicture: profile.photos?.[0]?.value || "",
+              githubId: profile.id,
             });
           }
 

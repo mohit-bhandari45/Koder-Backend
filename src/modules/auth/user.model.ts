@@ -1,10 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser } from "../types/userTypes";
+import { IUser } from "../../types/userTypes";
+import bcrypt from "bcrypt";
 
 // User Schema
 const userSchema = new Schema<IUser>(
     {
-        fullname: {
+        fullName: {
             type: String,
             required: [true, "Full name is required"],
             trim: true,
@@ -12,7 +13,7 @@ const userSchema = new Schema<IUser>(
         },
         username: {
             type: String,
-            required: [false, "Username is required"],
+            required: false,
             unique: true,
             trim: true,
             lowercase: true,
@@ -44,11 +45,38 @@ const userSchema = new Schema<IUser>(
             default: null,
             trim: true,
         },
+        googleId: {
+            type: String,
+            default: null,
+            trim: true,
+        },
+        githubId: {
+            type: String,
+            default: null,
+            trim: true,
+        },
+        isVerified:{
+            type: Boolean,
+            default: false
+        }
     },
     {
-        timestamps: true, // Automatically adds createdAt and updatedAt fields
+        timestamps: true,
     }
 );
+
+// 🔐 Hash password before saving
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password") || !this.password) return next();
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        return next();
+    } catch (err) {
+        return next(err as any);
+    }
+});
 
 // Create and export the User model
 const User = mongoose.model<IUser>("user", userSchema);
