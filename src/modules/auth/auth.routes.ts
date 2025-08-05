@@ -2,7 +2,7 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from ".
 import { Router } from "express";
 import passport from "passport";
 import { IUser } from "../../types/userTypes";
-import { loginHandler, refreshTokenHandler, signupHandler, verifyEmailHandler } from "./auth.controller";
+import { loginHandler, logoutHandler, refreshTokenHandler, signupHandler, verifyEmailHandler } from "./auth.controller";
 import MailService from "./email.service";
 
 const router = Router();
@@ -11,6 +11,7 @@ router.post("/signup", signupHandler);
 router.post("/login", loginHandler);
 router.post("/verify", verifyEmailHandler);
 router.post("/refresh", refreshTokenHandler);
+router.post("/logout", logoutHandler);
 
 router.get(
   "/google",

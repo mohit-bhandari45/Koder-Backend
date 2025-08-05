@@ -137,4 +137,25 @@ async function refreshTokenHandler(req: Request, res: Response) {
     }
 }
 
-export { refreshTokenHandler, signupHandler, loginHandler,verifyEmailHandler };
+/**
+ * @desc Handles user logout
+ * @method POST
+ * @route /auth/logout
+ */
+async function logoutHandler(req: Request, res: Response): Promise<void> {
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+    });
+
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+    });
+
+    res.status(200).json(makeResponse("Logout successful"));
+}
+
+export { refreshTokenHandler, signupHandler, loginHandler,verifyEmailHandler, logoutHandler };
