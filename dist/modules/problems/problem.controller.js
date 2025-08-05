@@ -1,6 +1,12 @@
-import { Request, Response } from "express";
-import ProblemModel from "../models/problem.model";
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAllProblemsHandler = getAllProblemsHandler;
+exports.addProblemHandler = addProblemHandler;
+exports.getProblemByIdHandler = getProblemByIdHandler;
+const problem_model_1 = __importDefault(require("./problem.model"));
 /**
  * Get all problems
  * @param req - Request object
@@ -9,13 +15,13 @@ import ProblemModel from "../models/problem.model";
  * @path /api/problems
  * @method GET
  */
-async function getAllProblemsHandler(req: Request, res: Response) {
-    const page = parseInt(req.query.page as string) || 1;
+async function getAllProblemsHandler(req, res) {
+    const page = parseInt(req.query.page) || 1;
     const limit = 30;
     const skip = (page - 1) * limit;
     try {
-        const problems = await ProblemModel.find().skip(skip).limit(limit);
-        const totalProblems = await ProblemModel.countDocuments();
+        const problems = await problem_model_1.default.find().skip(skip).limit(limit);
+        const totalProblems = await problem_model_1.default.countDocuments();
         res.json({
             message: "Problems fetched successfully",
             data: problems,
@@ -23,12 +29,12 @@ async function getAllProblemsHandler(req: Request, res: Response) {
             totalPages: Math.ceil(totalProblems / limit),
         });
         return;
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: "Internal server error" });
         return;
     }
 }
-
 /**
  * Add a new problem
  * @param req - Request object
@@ -37,23 +43,21 @@ async function getAllProblemsHandler(req: Request, res: Response) {
  * @path /api/problems
  * @method POST
  */
-async function addProblemHandler(req: Request, res: Response): Promise<void> {
+async function addProblemHandler(req, res) {
     const { title, description, testCases } = req.body;
-    
     try {
-        if(!title || !description || !testCases) {
+        if (!title || !description || !testCases) {
             res.status(400).json({ message: "All fields are required" });
             return;
         }
-
-        const problem = await ProblemModel.create({ title, description, testCases });
+        const problem = await problem_model_1.default.create({ title, description, testCases });
         res.status(201).json({ message: "Problem created successfully", id: problem._id.toString() });
         return;
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: "Internal server error" });
     }
 }
-
 /**
  * Get a problem by id
  * @param req - Request object
@@ -62,19 +66,18 @@ async function addProblemHandler(req: Request, res: Response): Promise<void> {
  * @path /api/problems/:id
  * @method GET
  */
-async function getProblemByIdHandler(req: Request, res: Response): Promise<void> {
+async function getProblemByIdHandler(req, res) {
     const { id } = req.params;
     try {
-        const problem = await ProblemModel.findById(id);
+        const problem = await problem_model_1.default.findById(id);
         if (!problem) {
             res.status(404).json({ message: "Problem not found" });
             return;
         }
         res.status(200).json({ message: "Problem fetched successfully", data: problem });
         return;
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ message: "Internal server error" });
-    }   
+    }
 }
-
-export { getAllProblemsHandler, addProblemHandler, getProblemByIdHandler };        

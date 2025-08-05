@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyAccessToken } from "../utils/jwt";
-import { IUser } from "../types/userTypes";
+import { verifyAccessToken } from "../../utils/jwt";
+import { IUser } from "../../types/userTypes";
 
 export function authCheck(req: Request, res: Response, next: NextFunction) {
   let token: string | undefined;

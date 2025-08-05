@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addSubmissionHandler, getAllSubmissions, getSubmissionById } from "../../controllers/submission.controller";
+import { addSubmissionHandler, getAllSubmissions, getSubmissionById } from "./submission.controller";
 
 const router = Router();
 

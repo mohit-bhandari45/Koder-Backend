@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import User from "../modules/auth/user.model";
-import { IUser } from "../types/userTypes";
+import User from "../shared/user.model";
+import { IUser } from "../../types/userTypes";
 
 
 /**

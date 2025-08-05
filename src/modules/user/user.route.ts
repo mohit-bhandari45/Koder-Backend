@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addUsernameHandler, getOwnProfileHandler, updateUsernameHandler } from "../../controllers/user.controller";
+import { addUsernameHandler, getOwnProfileHandler, updateUsernameHandler } from "./user.controller";
 
 const router = Router();
 

@@ -2,16 +2,22 @@ import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from ".
 import { Router } from "express";
 import passport from "passport";
 import { IUser } from "../../types/userTypes";
-import { loginHandler, logoutHandler, refreshTokenHandler, signupHandler, verifyEmailHandler } from "./auth.controller";
+import { forgotPasswordHandler, loginHandler, logoutHandler, refreshTokenHandler, resendOtpHandler, resetPasswordHandler, signupHandler, verifyEmailHandler, verifyResetOtpHandler } from "./auth.controller";
 import MailService from "./email.service";
 
 const router = Router();
 
 router.post("/signup", signupHandler);
 router.post("/login", loginHandler);
-router.post("/verify", verifyEmailHandler);
+router.post("/verify-email", verifyEmailHandler);
 router.post("/refresh", refreshTokenHandler);
+router.post("/resend-otp", resendOtpHandler);
 router.post("/logout", logoutHandler);
+
+/* Forgot-Password */
+router.post("/forgot-password", forgotPasswordHandler);
+router.post("/verify-reset-otp", verifyResetOtpHandler);
+router.post("/reset-password", resetPasswordHandler);
 
 router.get(
   "/google",

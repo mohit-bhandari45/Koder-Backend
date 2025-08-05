@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import UserModel from "./modules/auth/user.model";
-import ProblemModel from "./models/problem.model";
+import User from "./modules/shared/user.model";
+import ProblemModel from "./modules/problems/problem.model";
 import TwoSumProblem from "./problems/twosum";
 
 dotenv.config();
@@ -39,9 +39,9 @@ async function seed() {
   ];
 
   try {
-    await UserModel.deleteMany({});
+    await User.deleteMany({});
     await ProblemModel.deleteMany({});
-    await UserModel.insertMany(users);
+    await User.insertMany(users);
     await ProblemModel.insertMany(problems);
     console.log("✅ Seeded users and problems successfully!");
   } catch (err) {

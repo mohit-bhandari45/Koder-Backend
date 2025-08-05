@@ -1,11 +1,11 @@
 import express from "express";
-import publicRoutes from "./routes/public";
-import authRoutes from "./modules/auth/auth.routes";
 import cors from "cors";
 import { initializePassport } from "./config/passpost";
 import { connectDatabase } from "./config/database";
-import apiRoutes from "./routes/api";
 import cookieParser from "cookie-parser";
+import publicRoutes from "./modules/routes/public";
+import authRoutes from "./modules/auth/auth.routes";
+import apiRoutes from "./modules/routes/api";
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);  // auth routes
-app.use("/", publicRoutes);
-app.use("/api", apiRoutes);
+app.use("/api", apiRoutes);  // apt routes
+app.use("/", publicRoutes);  // public routes
 
 export default app;

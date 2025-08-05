@@ -16,8 +16,13 @@ http://localhost:8000
 4. [Google OAuth](#4-google-oauth)
 5. [GitHub OAuth](#5-github-oauth)
 6. [Verify Email via OTP](#6-verify-email-via-otp)
-7. [Cookie Details](#7-cookie-details)
-8. [Security Notes](#8-security-notes)
+7. [Resend OTP](#7-resend-otp)
+8. [Forgot Password](#8-forgot-password)
+9. [Verify Reset OTP](#9-verify-reset-otp)
+10. [Reset Password](#10-reset-password)
+11. [Logout](#11-logout)
+12. [Cookie Details](#12--cookie-details)
+13. [Security Notes](#13--security-notes)
 
 ---
 
@@ -55,20 +60,12 @@ http://localhost:8000
 * **400 Bad Request** (User already exists)
 * **500 Internal Server Error**
 
-```json
-{
-  "success": false,
-  "message": "User already exists!"
-}
-```
-
 ---
 
 ## 2. Login
 
 **URL**: `/auth/login`
 **Method**: `POST`
-**Headers**: `Content-Type: application/json`
 
 ### Request Body
 
@@ -92,17 +89,6 @@ http://localhost:8000
 }
 ```
 
-### Error Response
-
-* **400 Bad Request**
-
-```json
-{
-  "success": false,
-  "message": "Invalid email or password"
-}
-```
-
 ---
 
 ## 3. Refresh Access Token
@@ -113,8 +99,6 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
-
 ```json
 {
   "message": "Access token refreshed"
@@ -122,8 +106,6 @@ http://localhost:8000
 ```
 
 ### Error Responses
-
-* **401 Unauthorized**
 
 ```json
 {
@@ -141,28 +123,25 @@ http://localhost:8000
 
 ## 4. Google OAuth
 
-### 🔹 Step 1: Start Auth Flow
+### Step 1: Start Auth Flow
 
 **URL**: `/auth/google`
 **Method**: `GET`
-**Redirects to**: Google Consent Screen
 
-### 🔹 Step 2: Callback
+### Step 2: Callback
 
 **URL**: `/auth/google/callback`
 **Method**: `GET`
 
-#### Success
+#### Success:
 
 * Sets `accessToken`, `refreshToken` cookies
-* Redirects:
+* Redirects to:
 
-  * If user has username: `http://localhost:3000/u/:username`
-  * Else: `http://localhost:3000/auth/username`
+  * `/u/:username` if user has username
+  * `/auth/username` otherwise
 
-#### Failure
-
-**URL**: `/google/failure`
+#### Failure:
 
 ```json
 {
@@ -174,28 +153,25 @@ http://localhost:8000
 
 ## 5. GitHub OAuth
 
-### 🔹 Step 1: Start Auth Flow
+### Step 1: Start Auth Flow
 
 **URL**: `/auth/github`
 **Method**: `GET`
-**Redirects to**: GitHub Login
 
-### 🔹 Step 2: Callback
+### Step 2: Callback
 
 **URL**: `/auth/github/callback`
 **Method**: `GET`
 
-#### Success
+#### Success:
 
 * Sets `accessToken`, `refreshToken` cookies
-* Redirects:
+* Redirects to:
 
-  * If user has username: `http://localhost:3000/u/:username`
-  * Else: `http://localhost:3000/auth/username`
+  * `/u/:username` if user has username
+  * `/auth/username` otherwise
 
-#### Failure
-
-**URL**: `/github/failure`
+#### Failure:
 
 ```json
 {
@@ -207,9 +183,8 @@ http://localhost:8000
 
 ## 6. Verify Email via OTP
 
-**URL**: `/auth/verify`
+**URL**: `/auth/verify-email`
 **Method**: `POST`
-**Headers**: `Content-Type: application/json`
 
 ### Request Body
 
@@ -222,8 +197,6 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
-
 ```json
 {
   "success": true,
@@ -231,20 +204,140 @@ http://localhost:8000
 }
 ```
 
-### Error Response
-
-* **Status**: `400 Bad Request`
+### Error Responses
 
 ```json
 {
   "success": false,
-  "message": "Invalid or expired OTP"
+  "message": "Invalid OTP"
+}
+```
+
+```json
+{
+  "success": false,
+  "message": "OTP expired"
 }
 ```
 
 ---
 
-## 7. 🍪 Cookie Details
+## 7. Resend OTP
+
+**URL**: `/auth/resend-otp`
+**Method**: `POST`
+
+### Request Body
+
+```json
+{
+  "email": "johndoe@example.com",
+  "type": "verify"
+}
+```
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "OTP resent successfully"
+}
+```
+
+---
+
+## 8. Forgot Password
+
+**URL**: `/auth/forgot-password`
+**Method**: `POST`
+
+### Request Body
+
+```json
+{
+  "email": "johndoe@example.com"
+}
+```
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "OTP sent to your email for password reset"
+}
+```
+
+---
+
+## 9. Verify Reset OTP
+
+**URL**: `/auth/verify-reset-otp`
+**Method**: `POST`
+
+### Request Body
+
+```json
+{
+  "email": "johndoe@example.com",
+  "code": "123456"
+}
+```
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "OTP verified. You may now reset your password."
+}
+```
+
+---
+
+## 10. Reset Password
+
+**URL**: `/auth/reset-password`
+**Method**: `POST`
+
+### Request Body
+
+```json
+{
+  "email": "johndoe@example.com",
+  "newPassword": "newSecurePassword123"
+}
+```
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "Password has been reset successfully"
+}
+```
+
+---
+
+## 11. Logout
+
+**URL**: `/auth/logout`
+**Method**: `POST`
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+---
+
+## 12. 🍪 Cookie Details
 
 | Cookie       | Description            | Expiry     | HttpOnly | Secure (prod) | SameSite |
 | ------------ | ---------------------- | ---------- | -------- | ------------- | -------- |
@@ -253,8 +346,11 @@ http://localhost:8000
 
 ---
 
-## 8. 🔒 Security Notes
+## 13. 🔒 Security Notes
 
 * All cookies are set with `HttpOnly`, `Secure` (in production), and `SameSite=lax`.
+* All endpoints validate inputs and return structured error messages.
+* Passwords are hashed using bcrypt before storage.
+* OTPs are valid for 10 minutes and are deleted after use or expiry.
+* Email verification and reset password flows both require OTP confirmation.
 * Always use HTTPS in production.
-* User input is validated in service/controller layer.

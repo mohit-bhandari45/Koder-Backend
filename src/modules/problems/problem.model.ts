@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IProblem, ITestCase } from "../types/problem";
+import { IProblem, ITestCase } from "../../types/problem";
 
 const testCaseSchema = new Schema<ITestCase>({
   input: {

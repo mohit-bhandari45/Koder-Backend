@@ -11,8 +11,14 @@ const email_service_1 = __importDefault(require("./email.service"));
 const router = (0, express_1.Router)();
 router.post("/signup", auth_controller_1.signupHandler);
 router.post("/login", auth_controller_1.loginHandler);
-router.post("/verify", auth_controller_1.verifyEmailHandler);
+router.post("/verify-email", auth_controller_1.verifyEmailHandler);
 router.post("/refresh", auth_controller_1.refreshTokenHandler);
+router.post("/resend-otp", auth_controller_1.resendOtpHandler);
+router.post("/logout", auth_controller_1.logoutHandler);
+/* Forgot-Password */
+router.post("/forgot-password", auth_controller_1.forgotPasswordHandler);
+router.post("/verify-reset-otp", auth_controller_1.verifyResetOtpHandler);
+router.post("/reset-password", auth_controller_1.resetPasswordHandler);
 router.get("/google", passport_1.default.authenticate("google", { scope: ["profile", "email"] }));
 router.get("/github", passport_1.default.authenticate("github", { scope: ["user:email"] }));
 router.get("/google/callback", passport_1.default.authenticate("google", { failureRedirect: "/auth/google/failure", session: false }), async (req, res) => {

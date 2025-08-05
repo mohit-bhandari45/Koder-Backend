@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { ISubmission } from "../types/submission";
+import { ISubmission } from "../../types/submission";
 
 const submissionSchema = new Schema<ISubmission>(
     {

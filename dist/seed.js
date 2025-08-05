@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const user_model_1 = __importDefault(require("./modules/auth/user.model"));
-const problem_model_1 = __importDefault(require("./models/problem.model"));
+const user_model_1 = __importDefault(require("./modules/shared/user.model"));
+const problem_model_1 = __importDefault(require("./modules/problems/problem.model"));
 const twosum_1 = __importDefault(require("./problems/twosum"));
 dotenv_1.default.config();
 async function seed() {

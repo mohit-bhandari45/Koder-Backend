@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { codeRunnerHandler } from "../../controllers/codeRunnerController";
+import { codeRunnerHandler } from "../../../controllers/codeRunnerController";
 
 const router = Router();
 
