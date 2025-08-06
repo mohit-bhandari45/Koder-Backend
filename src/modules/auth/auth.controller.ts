@@ -6,7 +6,6 @@ import { OtpService } from "./otp.service";
 import User from "../shared/user.model";
 import MailService from "./email.service";
 import { AppError } from "../../utils/AppError";
-import bcrypt from "bcrypt";
 
 /**
  * @desc Handles user registration
@@ -201,7 +200,7 @@ async function verifyResetOtpHandler(req: Request, res: Response): Promise<void>
 /**
  * @desc Handles reset password
  * @method POST
- * @route /auth/logout
+ * @route /auth/reset-otp
  */
 async function resetPasswordHandler(req: Request, res: Response) {
     const { email, newPassword } = req.body;
@@ -213,9 +212,7 @@ async function resetPasswordHandler(req: Request, res: Response) {
 
         const user = await User.findOne({ email });
         if (!user) throw new AppError("User not found", 404);
-
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
+        user.password = newPassword;
         await user.save();
 
         res.status(200).json(makeResponse("Password has been reset successfully"));
