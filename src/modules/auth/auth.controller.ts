@@ -33,7 +33,7 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        res.status(201).json(makeResponse("User registered successfully", user._id));
+        res.status(201).json(makeResponse("User registered successfully", user._id, accessToken));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
@@ -71,7 +71,7 @@ async function loginHandler(req: Request, res: Response): Promise<void> {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        res.status(200).json(makeResponse("Login successful", user._id));
+        res.status(200).json(makeResponse("Login successful", user._id, accessToken));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
@@ -214,8 +214,7 @@ async function resetPasswordHandler(req: Request, res: Response) {
         const user = await User.findOne({ email });
         if (!user) throw new AppError("User not found", 404);
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
+        user.password = newPassword;
         await user.save();
 
         res.status(200).json(makeResponse("Password has been reset successfully"));

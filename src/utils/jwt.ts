@@ -17,5 +17,6 @@ export function verifyRefreshToken(token: string): any {
 }
 
 export function verifyAccessToken(token: string): any {
+    console.log(token);
     return jwt.verify(token, accessSecret);
 }

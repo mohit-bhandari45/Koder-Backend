@@ -5,14 +5,14 @@ import { IUser } from "../../types/userTypes";
 import { OtpService } from "./otp.service";
 import { AppError } from "../../utils/AppError";
 
-interface IRegisterResponse {
+interface IAuthResponse {
     user: IUser;
     accessToken: string;
     refreshToken: string;
 }
 
 export class UserService {
-    static async register(fullName: string, email: string, password: string): Promise<IRegisterResponse> {
+    static async register(fullName: string, email: string, password: string): Promise<IAuthResponse> {
         // 🔍 Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -36,12 +36,12 @@ export class UserService {
         return { user, accessToken, refreshToken };
     }
 
-    static async login(email: string, password: string): Promise<IRegisterResponse> {
+    static async login(email: string, password: string): Promise<IAuthResponse> {
         // 1. Find user by email
         const user = await User.findOne({ email });
 
         if (!user) {
-            throw new AppError("Invalid email or password", 400);
+            throw new AppError("Invalid Credentials", 400);
         }
 
         // 2. Check if password exists (social login users may not have one)
@@ -52,7 +52,7 @@ export class UserService {
         // 3. Compare provided password with hashed password in DB
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            throw new AppError("Invalid email or password", 400);
+            throw new AppError("Invalid Credentials", 400);
         }
 
         // 4. Generate tokens
