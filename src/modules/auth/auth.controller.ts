@@ -200,7 +200,7 @@ async function verifyResetOtpHandler(req: Request, res: Response): Promise<void>
 /**
  * @desc Handles reset password
  * @method POST
- * @route /auth/reset-otp
+ * @route /auth/reset-password
  */
 async function resetPasswordHandler(req: Request, res: Response) {
     const { email, newPassword } = req.body;
