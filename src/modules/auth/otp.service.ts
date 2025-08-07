@@ -1,5 +1,5 @@
-import { AppError } from "../../utils/AppError";
-import { generateOTP } from "../../utils/generateotp";
+import { AppError } from "../../utils/appError.utils";
+import { generateOTP } from "../../utils/generateotp.utils";
 import MailService from "./email.service";
 import OTPTokenModel from "./otp.model";
 

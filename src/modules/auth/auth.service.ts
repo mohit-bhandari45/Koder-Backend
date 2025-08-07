@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import User from "../shared/user.model";
-import { generateAccessToken, generateRefreshToken } from "../../utils/jwt";
-import { IUser } from "../../types/userTypes";
+import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils";
+import { IUser } from "../../types/user.types";
 import { OtpService } from "./otp.service";
-import { AppError } from "../../utils/AppError";
+import { AppError } from "../../utils/appError.utils";
 
 interface IAuthResponse {
     user: IUser;

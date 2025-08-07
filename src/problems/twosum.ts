@@ -1,4 +1,4 @@
-import { IExample, ITestCase } from "../types/problem";
+import { IExample, ITestCase } from "../types/problem.types";
 
 function parseInputToStdin(rawInput: string): string {
     const match = rawInput.match(/nums\s*=\s*\[([^\]]+)\],\s*target\s*=\s*(-?\d+)/);

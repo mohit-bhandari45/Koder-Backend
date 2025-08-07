@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { executeCode } from "../utils/execute";
+import { executeCode } from "../utils/execute.utils";
 
 async function codeRunnerHandler(req: Request, res: Response): Promise<void> {
     const { code, language } = req.body;

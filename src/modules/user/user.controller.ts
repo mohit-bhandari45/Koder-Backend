@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import User from "../shared/user.model";
-import { IUser } from "../../types/userTypes";
-import { AppError } from "../../utils/AppError";
-import { makeResponse } from "../../utils/makeResponse";
+import { IUser } from "../../types/user.types";
+import { AppError } from "../../utils/appError.utils";
+import { makeResponse } from "../../utils/makeResponse.utils";
 import bcrypt from "bcrypt";
 
 /**
@@ -251,7 +251,7 @@ export const addPasswordHandler = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-    const user = req.user as IUser;
+    const user = req.user;
 
     if (!user || !user._id) {
         throw new AppError("Unauthorized", 401);

@@ -1,4 +1,4 @@
-import { IUser } from "../types/userTypes";
+import { IUser } from "../types/user.types";
 import jwt from "jsonwebtoken";
 
 const accessSecret = process.env.ACCESS_TOKEN_SECRET || "access_secret";

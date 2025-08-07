@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { generateAccessToken, verifyRefreshToken } from "../../utils/jwt";
-import { makeResponse } from "../../utils/makeResponse";
+import { generateAccessToken, verifyRefreshToken } from "../../utils/jwt.utils";
+import { makeResponse } from "../../utils/makeResponse.utils";
 import { UserService } from "./auth.service";
 import { OtpService } from "./otp.service";
 import User from "../shared/user.model";
 import MailService from "./email.service";
-import { AppError } from "../../utils/AppError";
+import { AppError } from "../../utils/appError.utils";
 
 /**
  * @desc Handles user registration

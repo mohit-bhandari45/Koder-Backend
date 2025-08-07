@@ -1,7 +1,6 @@
-import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from "../../utils/jwt";
 import { Router } from "express";
 import passport from "passport";
-import { IUser } from "../../types/userTypes";
+import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils";
 import { forgotPasswordHandler, loginHandler, logoutHandler, refreshTokenHandler, resendOtpHandler, resetPasswordHandler, signupHandler, verifyEmailHandler, verifyResetOtpHandler } from "./auth.controller";
 import MailService from "./email.service";
 
@@ -33,7 +32,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google/failure", session: false }),
   async (req, res) => {
-    const user = req.user as IUser;
+    const user = req.user;
     if (!user) {
       return res.redirect("/auth/google/failure");
     }
@@ -54,9 +53,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`http://localhost:3000/u/${user.username}`);
+      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/u/${user.username}`);
     } else {
-      res.redirect(`http://localhost:3000/auth/username`);
+      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/auth/username`);
     }
   }
 );
@@ -65,7 +64,7 @@ router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/auth/github/failure", session: false }),
   async (req: any, res) => {
-    const user = req.user as IUser;
+    const user = req.user;
     if (!user) {
       return res.redirect("/auth/github/failure");
     }
@@ -87,9 +86,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`http://localhost:3000/u/${user.username}`);
+      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/u/${user.username}`);
     } else {
-      res.redirect(`http://localhost:3000/auth/username`);
+      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/auth/username`);
     }
   }
 );

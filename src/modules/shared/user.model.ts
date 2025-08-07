@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser } from "../../types/userTypes";
+import { IUser } from "../../types/user.types";
 import bcrypt from "bcrypt";
 
 // User Schema

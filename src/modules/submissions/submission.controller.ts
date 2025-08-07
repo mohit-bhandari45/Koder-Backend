@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import SubmissionModel from "./submission.model";
-import { IUser } from "../../types/userTypes";
+import { IUser } from "../../types/user.types";
 
 /**
  * Add Submission
