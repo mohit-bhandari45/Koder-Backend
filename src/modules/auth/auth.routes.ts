@@ -53,9 +53,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/u/${user.username}`);
+      res.redirect(`https://koder-frontend.vercel.app/u/${user.username}`);
     } else {
-      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/auth/username`);
+      res.redirect(`https://koder-frontend.vercel.app/auth/username`);
     }
   }
 );
@@ -86,9 +86,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/u/${user.username}`);
+      res.redirect(`https://koder-frontend.vercel.app/u/${user.username}`);
     } else {
-      res.redirect(`https://specified-peacock-mohit123-1b61bd1c.koyeb.app/auth/username`);
+      res.redirect(`https://koder-frontend.vercel.app/auth/username`);
     }
   }
 );
