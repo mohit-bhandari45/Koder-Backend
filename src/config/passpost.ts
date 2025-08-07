@@ -4,12 +4,20 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import axios from "axios";
 import User from "../modules/shared/user.model";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const GOOGLE_CALLBACK_URL = (isProduction
+  ? process.env.GOOGLE_PROD_CALLBACK_URL
+  : process.env.GOOGLE_DEV_CALLBACK_URL) || "";
+
+const GITHUB_CALLBACK_URL = (isProduction
+  ? process.env.GITHUB_PROD_CALLBACK_URL
+  : process.env.GITHUB_DEV_CALLBACK_URL) || "";
+
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
-const GOOGLE_CALLBACK_URL = process.env.GOOGLE_CALLBACK_URL || "";
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || "";
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || "";
-const GITHUB_CALLBACK_URL = process.env.GITHUB_CALLBACK_URL || "";
 
 export function initializePassport() {
   passport.use(
@@ -48,7 +56,7 @@ export function initializePassport() {
       {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: GITHUB_CALLBACK_URL
+        callbackURL: GITHUB_CALLBACK_URL,
       },
       async (accessToken: any, refreshToken: any, profile: { emails: { value: any; }[]; displayName: any; id: string, username: any; photos: { value: any; }[]; }, done: (arg0: unknown, arg1: any) => any) => {
         try {
