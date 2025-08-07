@@ -7,11 +7,14 @@ import User from "../shared/user.model";
 import MailService from "./email.service";
 import { AppError } from "../../utils/appError.utils";
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 /**
  * @desc Handles user registration
  * @method POST
  * @route /auth/signup
  */
+
 async function signupHandler(req: Request, res: Response): Promise<void> {
     const { fullName, email, password } = req.body;
 
@@ -20,15 +23,15 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
 
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 15 * 60 * 1000
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -58,15 +61,15 @@ async function loginHandler(req: Request, res: Response): Promise<void> {
 
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 15 * 60 * 1000 // 15 minutes
         });
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -134,8 +137,8 @@ async function refreshTokenHandler(req: Request, res: Response) {
 
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'none',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 15 * 60 * 1000 // 15 minutes
         });
         res.status(200).json({ message: "Access token refreshed" });
@@ -212,7 +215,7 @@ async function resetPasswordHandler(req: Request, res: Response) {
 
         const user = await User.findOne({ email });
         if (!user) throw new AppError("User not found", 404);
-        
+
         user.password = newPassword;
         await user.save();
 
@@ -270,14 +273,14 @@ async function resendOtpHandler(req: Request, res: Response) {
 async function logoutHandler(req: Request, res: Response): Promise<void> {
     res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
     });
 
     res.clearCookie("refreshToken", {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
     });
 
     res.status(200).json(makeResponse("Logout successful"));

@@ -4,6 +4,7 @@ import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils
 import { forgotPasswordHandler, loginHandler, logoutHandler, refreshTokenHandler, resendOtpHandler, resetPasswordHandler, signupHandler, verifyEmailHandler, verifyResetOtpHandler } from "./auth.controller";
 import MailService from "./email.service";
 
+const isProduction = process.env.NODE_ENV === 'production';
 const router = Router();
 
 router.post("/signup", signupHandler);
@@ -42,14 +43,14 @@ router.get(
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000 // 15 minutes
     });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
@@ -76,13 +77,13 @@ router.get(
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000 // 15 minutes
     });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
