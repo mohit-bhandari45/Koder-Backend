@@ -163,7 +163,8 @@ const updateOwnProfileHandler = async (
 
 /**
  * @description Permanently delete the currently logged-in user
- * @route DELETE /api/user/me
+ * @route /api/user/me
+ *  @method DELETE
  */
 const deleteOwnAccountHandler = async (
     req: Request,
@@ -196,7 +197,8 @@ const deleteOwnAccountHandler = async (
 
 /**
  * @description Change password for logged-in user
- * @route POST /api/user/change-password
+ * @route /api/user/change-password
+ *  @method POST
  */
 
 const changePasswordHandler = async (
@@ -244,7 +246,8 @@ const changePasswordHandler = async (
 
 /**
  * @description Add password for OAuth users who don't have one
- * @route POST /api/user/add-password
+ * @route /api/user/add-password
+ *  @method POST
  */
 
 export const addPasswordHandler = async (
