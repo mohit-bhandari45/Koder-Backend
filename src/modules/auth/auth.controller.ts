@@ -35,7 +35,7 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
-        res.status(201).json(makeResponse("User registered successfully", user._id, accessToken));
+        res.status(201).json(makeResponse("User registered successfully", user, accessToken));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
@@ -73,7 +73,7 @@ async function loginHandler(req: Request, res: Response): Promise<void> {
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
-        res.status(200).json(makeResponse("Login successful", user._id, accessToken));
+        res.status(200).json(makeResponse("Login successful", user, accessToken));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
