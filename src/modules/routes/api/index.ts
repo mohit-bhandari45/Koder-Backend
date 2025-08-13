@@ -3,6 +3,7 @@ import { authCheck } from "../../middleware/auth.middleware";
 import problemRoutes from "../../problems/problem.route";
 import userRoutes from "../../user/user.route";
 import submissionRoutes from "../../submissions/submission.route";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 const router = Router();
 
@@ -12,5 +13,18 @@ router.use(authCheck);
 router.use("/problem", problemRoutes);
 router.use("/user", userRoutes);
 router.use("/submission", submissionRoutes);
+
+router.use(
+  "/dashboard",
+  createProxyMiddleware({
+    target: "https://koder-dashboard.onrender.com", // dashboard server
+    changeOrigin: true, // updates Host header to match target
+    secure: true, // verify SSL cert
+    cookieDomainRewrite: "", // make cookies from dashboard come from koyeb.app
+    pathRewrite: {
+      "^/dashboard": "/dashboard", // keep same path
+    }
+  })
+);
 
 export default router;

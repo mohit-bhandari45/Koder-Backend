@@ -37,7 +37,6 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
 
         res.status(201).json(makeResponse("User registered successfully", user, accessToken));
     } catch (error) {
-        console.log(error);
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
             return;
