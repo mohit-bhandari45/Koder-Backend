@@ -21,19 +21,18 @@ router.use("/submission", submissionRoutes);
 router.use(
   "/dashboard",
   createProxyMiddleware({
-    target: "https://koder-dashboard.onrender.com",
+    target: "http://localhost:8000/dashboard", // dashboard backend
     changeOrigin: true,
-    secure: true,
-    cookieDomainRewrite: "", // ensures dashboard cookies appear from main server domain
-    // no pathRewrite needed if main server and dashboard paths match
+    secure: false,
+    cookieDomainRewrite: "",
     on: {
       proxyReq: (proxyReq, req) => {
-        // Forward the access token from cookies to dashboard backend
-        if ((req as any).cookies?.accessToken) {
-          proxyReq.setHeader("Authorization", `Bearer ${(req as any).cookies.accessToken}`);
+        const expressReq = req as import("express").Request;
+        if (expressReq.cookies?.accessToken) {
+          proxyReq.setHeader("Authorization", `Bearer ${expressReq.cookies.accessToken}`);
         }
-      }
-    }
+      },
+    },
   })
 );
 

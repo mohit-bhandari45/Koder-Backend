@@ -7,6 +7,7 @@ import publicRoutes from "./modules/routes/public";
 import authRoutes from "./modules/auth/auth.routes";
 import apiRoutes from "./modules/routes/api";
 import { allowedOrigins } from "./utils/allowed.hosts";
+import morgan from "morgan";
 
 const app = express();
 
@@ -26,7 +27,7 @@ app.use(cors({
     },
     credentials: true,
 }));
-
+app.use(morgan('dev'));
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);  // auth routes
