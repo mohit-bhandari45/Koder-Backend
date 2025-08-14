@@ -21,7 +21,8 @@ router.use("/submission", submissionRoutes);
 router.use(
   "/dashboard",
   createProxyMiddleware({
-    target: "http://localhost:8000/dashboard", // dashboard backend
+    // target: "http://localhost:8000/dashboard", // dashboard backend
+    target: "https://koder-dashboard.onrender.com/dashboard", // dashboard backend
     changeOrigin: true,
     secure: false,
     cookieDomainRewrite: "",
