@@ -15,7 +15,7 @@ const addSubmissionHandler = async (req: Request, res: Response) => {
     try {
         const user = req.user as IUser | undefined;
         const userId = user?._id;
-        const { problemId, code, language, status } = req.body;
+        const { problemId, code, language, status, runtime, memory } = req.body;
 
         if (!userId || !problemId || !code || !language) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -27,10 +27,13 @@ const addSubmissionHandler = async (req: Request, res: Response) => {
             code,
             language,
             status: status,
-        }); 
+            runtime,
+            memory
+        });
         await submission.save();
         res.status(201).json({ message: "Submission successful", id: submission._id });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Server error", error });
     }
 };

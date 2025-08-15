@@ -6,8 +6,8 @@ export interface ISubmission extends Document {
     code: string;
     language: string;
     status: "Pending" | "Accepted" | "Rejected";
-    runtime?: number;
-    memory?: number;
+    runtime: number;
+    memory: number;
     createdAt: Date;
     updatedAt: Date;
 }
