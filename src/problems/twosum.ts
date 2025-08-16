@@ -1,4 +1,5 @@
 import { IExample, ITestCase } from "../types/problem.types";
+import { cppStarter, csharpStarter, cStarter, dartStarter, elixirStarter, goStarter, haskellStarter, javascriptStarter, javaStarter, kotlinStarter, perlStarter, pythonStarter, rStarter, rubyStarter, rustStarter, scalaStarter, swiftStarter } from "./starterscode/twosum";
 
 function parseInputToStdin(rawInput: string): string {
     const match = rawInput.match(/nums\s*=\s*\[([^\]]+)\],\s*target\s*=\s*(-?\d+)/);
@@ -580,108 +581,23 @@ You may assume that each input would have exactly one solution, and you may not 
     testCases: processedTestCases,
 
     starterCode: {
-        javascript: `
-function twoSum(nums, target) {
-  // Write your code here
-}`.trim(),
-
-        python: `
-def twoSum(nums, target):
-    # Write your code here
-    pass`.trim(),
-
-        java: `
-public static int[] twoSum(int[] nums, int target) {
-    // Write your code here
-    return new int[] {};
-}`.trim(),
-
-        cpp: `
-vector<int> twoSum(vector<int>& nums, int target) {
-    // Write your code here
-    return {};
-}`.trim(),
-
-        c: `
-int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    // Write your code here
-    *returnSize = 0;
-    return NULL;
-}`.trim(),
-
-        go: `
-func twoSum(nums []int, target int) []int {
-    // Write your code here
-    return []int{}
-}`.trim(),
-
-        ruby: `
-def twoSum(nums, target)
-  # Write your code here
-end`.trim(),
-
-        rust: `
-fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-    // Write your code here
-    Vec::new()
-}`.trim(),
-
-        kotlin: `
-fun twoSum(nums: IntArray, target: Int): IntArray {
-    // Write your code here
-    return intArrayOf()
-}`.trim(),
-
-        swift: `
-func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-    // Write your code here
-    return []
-}`.trim(),
-
-        perl: `
-sub twoSum {
-    my ($nums_ref, $target) = @_;
-    # Write your code here
-    return ();
-}`.trim(),
-
-        scala: `
-def twoSum(nums: Array[Int], target: Int): Array[Int] = {
-    // Write your code here
-    Array()
-}`.trim(),
-
-        haskell: `
-twoSum :: [Int] -> Int -> [Int]
-twoSum nums target = []
-`.trim(),
-
-        csharp: `
-public static int[] TwoSum(int[] nums, int target) {
-    // Write your code here
-    return new int[] {};
-}`.trim(),
-
-        r: `
-twoSum <- function(nums, target) {
-  # Write your code here
-  return(c())
-}`.trim(),
-
-        dart: `
-List<int> twoSum(List<int> nums, int target) {
-  // Write your code here
-  return [];
-}`.trim(),
-
-        elixir: `
-defmodule Solution do
-  def two_sum(nums, target) do
-    # Write your code here
-    []
-  end
-end
-`.trim(),
+        javascript: javascriptStarter,
+        python: pythonStarter,
+        java: javaStarter,
+        cpp: cppStarter,
+        c: cStarter,
+        go: goStarter,
+        ruby: rubyStarter,
+        rust: rustStarter,
+        kotlin: kotlinStarter,
+        swift: swiftStarter,
+        perl: perlStarter,
+        scala: scalaStarter,
+        haskell: haskellStarter,
+        csharp: csharpStarter,
+        r: rStarter,
+        dart: dartStarter,
+        elixir: elixirStarter,
     },
 
     solution: {

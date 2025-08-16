@@ -39,9 +39,9 @@ async function seed() {
   ];
 
   try {
-    await User.deleteMany({});
+    // await User.deleteMany({});
     await ProblemModel.deleteMany({});
-    await User.insertMany(users);
+    // await User.insertMany(users);
     await ProblemModel.insertMany(problems);
     console.log("✅ Seeded users and problems successfully!");
   } catch (err) {
