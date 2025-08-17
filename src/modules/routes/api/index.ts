@@ -21,8 +21,10 @@ router.use("/submission", submissionRoutes);
 router.use(
   "/dashboard",
   createProxyMiddleware({
-    // target: "http://localhost:8000/dashboard", // dashboard backend
-    target: "https://koder-dashboard.onrender.com/dashboard", // dashboard backend
+    target:
+      process.env.NODE_ENV === "production"
+        ? "https://koder-dashboard.onrender.com/dashboard"
+        : "http://localhost:8000/dashboard",
     changeOrigin: true,
     secure: false,
     cookieDomainRewrite: "",
@@ -30,11 +32,23 @@ router.use(
       proxyReq: (proxyReq, req) => {
         const expressReq = req as import("express").Request;
         if (expressReq.cookies?.accessToken) {
-          proxyReq.setHeader("Authorization", `Bearer ${expressReq.cookies.accessToken}`);
+          proxyReq.setHeader(
+            "Authorization",
+            `Bearer ${expressReq.cookies.accessToken}`
+          );
         }
+      },
+      proxyRes: (proxyRes, req, res) => {
+        // Ensure CORS headers are visible to browser
+        proxyRes.headers["Access-Control-Allow-Origin"] =
+          process.env.NODE_ENV === "production"
+            ? "https://koder-frontend.vercel.app"
+            : "http://localhost:3000";
+        proxyRes.headers["Access-Control-Allow-Credentials"] = "true";
       },
     },
   })
 );
+
 
 export default router;

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import User from "./modules/shared/user.model";
 import ProblemModel from "./modules/problems/problem.model";
 import TwoSumProblem from "./problems/twosum";
+import SubmissionModel from "./modules/submissions/submission.model";
 
 dotenv.config();
 

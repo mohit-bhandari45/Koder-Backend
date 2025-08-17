@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { IProblem, ITestCase } from "../../types/problem.types";
+import SubmissionModel from "../submissions/submission.model";
 
 const testCaseSchema = new Schema<ITestCase>({
   input: {
@@ -52,7 +53,7 @@ const languageCodeSchema = new Schema(
   { _id: false }
 );
 
-const problemSchema = new Schema<IProblem>(
+export const problemSchema = new Schema<IProblem>(
   {
     title: {
       type: String,
@@ -98,5 +99,58 @@ const problemSchema = new Schema<IProblem>(
   { timestamps: true }
 );
 
-const ProblemModel = mongoose.model<IProblem>("problem", problemSchema);
+/**
+ * The Below contains all the middlewares
+ * needed to put!
+ */
+
+/* Model delete middlwares */
+// Cascade delete when using Model.deleteOne()
+problemSchema.pre("deleteOne", { document: false, query: true }, async function (next) {
+  const filter = this.getFilter();
+  const problems = await this.model.find(filter, "_id");
+  const ids = problems.map(p => p._id);
+  
+  if (ids.length > 0) {
+    await SubmissionModel.deleteMany({ problemId: { $in: ids } });
+  }
+  
+  next();
+})
+
+// Cascade delete when using Model.deleteMany()
+problemSchema.pre("deleteMany", { document: false, query: true }, async function (next) {
+  const filter = await this.getFilter();
+  const problem = await this.model.find(filter, "_id");
+  const ids = problem.map(p => p._id);
+  
+  if (ids.length) {
+    await SubmissionModel.deleteMany({ problemId: { $in: ids } });
+  }
+  
+  next();
+})
+
+// Cascade delete when using Model.findOneAndDelete() or Model.findByIdAndDelete()
+problemSchema.pre("findOneAndDelete", { document: false, query: true }, async function (next) {
+  const filter = this.getFilter();
+  const problem = await this.model.findOne(filter, "_id");
+  
+  if (problem) {
+    await SubmissionModel.deleteMany({ problemId: problem._id });
+  }
+  
+  next();
+});
+
+/* Doc delete middlwares */
+problemSchema.pre("deleteOne", { document: true, query: false }, async function (next) {
+  const problemId = this._id;
+  if (problemId) {
+    await SubmissionModel.deleteMany({ problemId });
+  }
+  next();
+});
+
+const ProblemModel: mongoose.Model<IProblem> = mongoose.model<IProblem>("problem", problemSchema);
 export default ProblemModel;

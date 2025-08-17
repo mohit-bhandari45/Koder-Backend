@@ -1,13 +1,12 @@
-import express from "express";
-import cors from "cors";
-import { initializePassport } from "./config/passpost";
-import { connectDatabase } from "./config/database";
 import cookieParser from "cookie-parser";
-import publicRoutes from "./modules/routes/public";
+import cors from "cors";
+import express from "express";
+import morgan from "morgan";
+import { connectDatabase } from "./config/database";
+import { initializePassport } from "./config/passpost";
 import authRoutes from "./modules/auth/auth.routes";
 import apiRoutes from "./modules/routes/api";
-import { allowedOrigins } from "./utils/allowed.hosts";
-import morgan from "morgan";
+import publicRoutes from "./modules/routes/public";
 
 const app = express();
 
@@ -17,16 +16,15 @@ initializePassport(); //passport initialization
 
 // middlewares
 app.use(express.json());
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
-}));
+app.use(
+    cors({
+        origin: process.env.NODE_ENV === "production"
+            ? "https://koder-frontend.vercel.app"
+            : "http://localhost:3000",
+        credentials: true,
+    })
+);
+
 app.use(morgan('dev'));
 app.use(cookieParser());
 
