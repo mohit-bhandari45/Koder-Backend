@@ -29,6 +29,8 @@ router.get(
   passport.authenticate("github", { scope: ["user:email"] })
 );
 
+const FRONTEND_REDIRECTION_URL = isProduction ? "https://koder-frontend.vercel.app" : "http://localhost:3000";
+
 router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/auth/google/failure", session: false }),
@@ -54,9 +56,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`https://koder-frontend.vercel.app/u/${user.username}`);
+      res.redirect(`${FRONTEND_REDIRECTION_URL}/u/${user.username}`);
     } else {
-      res.redirect(`https://koder-frontend.vercel.app/auth/username`);
+      res.redirect(`${FRONTEND_REDIRECTION_URL}/auth/username`);
     }
   }
 );
@@ -87,9 +89,9 @@ router.get(
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     if (user.username) {
-      res.redirect(`https://koder-frontend.vercel.app/u/${user.username}`);
+      res.redirect(`${FRONTEND_REDIRECTION_URL}/u/${user.username}`);
     } else {
-      res.redirect(`https://koder-frontend.vercel.app/auth/username`);
+      res.redirect(`${FRONTEND_REDIRECTION_URL}/auth/username`);
     }
   }
 );

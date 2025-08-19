@@ -29,6 +29,7 @@ export function initializePassport() {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
+          console.log(GOOGLE_CALLBACK_URL)
           let user = await User.findOne({ email: profile.emails?.[0]?.value });
           if (user && user.googleId !== profile.id) {
             user.googleId = profile.id;
