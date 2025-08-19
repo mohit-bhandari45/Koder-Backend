@@ -26,7 +26,7 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
             secure: isProduction,
             sameSite: isProduction ? 'none' : 'lax',
             maxAge: 15 * 60 * 1000,
-            path: '/'
+            path: '/',
         });
 
         res.cookie('refreshToken', refreshToken, {
@@ -34,7 +34,7 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
             secure: isProduction,
             sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            path:'/'
+            path:'/',
         });
 
         res.status(201).json(makeResponse("User registered successfully", user, accessToken));
