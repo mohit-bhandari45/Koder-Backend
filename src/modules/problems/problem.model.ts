@@ -84,16 +84,16 @@ export const problemSchema = new Schema<IProblem>(
       type: [String],
       required: true,
     },
+    functionName: {
+      type: String,
+      required: true,
+    },
     starterCode: {
       type: languageCodeSchema,
       required: true,
     },
     solution: {
       type: languageCodeSchema,
-    },
-    functionName: {
-      type: String,
-      required: true,
     },
   },
   { timestamps: true }
@@ -110,11 +110,11 @@ problemSchema.pre("deleteOne", { document: false, query: true }, async function 
   const filter = this.getFilter();
   const problems = await this.model.find(filter, "_id");
   const ids = problems.map(p => p._id);
-  
+
   if (ids.length > 0) {
     await SubmissionModel.deleteMany({ problemId: { $in: ids } });
   }
-  
+
   next();
 })
 
@@ -123,11 +123,11 @@ problemSchema.pre("deleteMany", { document: false, query: true }, async function
   const filter = await this.getFilter();
   const problem = await this.model.find(filter, "_id");
   const ids = problem.map(p => p._id);
-  
+
   if (ids.length) {
     await SubmissionModel.deleteMany({ problemId: { $in: ids } });
   }
-  
+
   next();
 })
 
@@ -135,11 +135,11 @@ problemSchema.pre("deleteMany", { document: false, query: true }, async function
 problemSchema.pre("findOneAndDelete", { document: false, query: true }, async function (next) {
   const filter = this.getFilter();
   const problem = await this.model.findOne(filter, "_id");
-  
+
   if (problem) {
     await SubmissionModel.deleteMany({ problemId: problem._id });
   }
-  
+
   next();
 });
 

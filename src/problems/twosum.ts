@@ -1,4 +1,4 @@
-import { IExample, ITestCase } from "../types/problem.types";
+import { IExample, IProblem, ITestCase } from "../types/problem.types";
 import { cppStarter, csharpStarter, cStarter, dartStarter, elixirStarter, goStarter, haskellStarter, javascriptStarter, javaStarter, kotlinStarter, perlStarter, pythonStarter, rStarter, rubyStarter, rustStarter, scalaStarter, swiftStarter } from "./starterscode/twosum";
 
 function parseInputToStdin(rawInput: string): string {
@@ -565,21 +565,20 @@ const processedTestCases = TestCases.map(tc => {
     return obj;
 });
 
-const TwoSumProblem = {
+const TwoSumProblem: IProblem = {
     title: "Two Sum",
     description: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 You may assume that each input would have exactly one solution, and you may not use the same element twice.`,
     difficulty: "Easy",
     tags: ["Array", "Hash Table"],
+    examples: Examples,
+    testCases: processedTestCases,
     constraints: [
         "2 <= nums.length <= 10^4",
         "-10^9 <= nums[i] <= 10^9",
         "-10^9 <= target <= 10^9"
     ],
     functionName: "twoSum",
-    examples: Examples,
-    testCases: processedTestCases,
-
     starterCode: {
         javascript: javascriptStarter,
         python: pythonStarter,
@@ -599,7 +598,6 @@ You may assume that each input would have exactly one solution, and you may not 
         dart: dartStarter,
         elixir: elixirStarter,
     },
-
     solution: {
         javascript: `
 function twoSum(nums, target) {

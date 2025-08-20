@@ -4,6 +4,7 @@ import User from "./modules/shared/user.model";
 import ProblemModel from "./modules/problems/problem.model";
 import TwoSumProblem from "./problems/twosum";
 import SubmissionModel from "./modules/submissions/submission.model";
+import ValidParenthesisProblem from "./problems/validParenthesis";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ async function seed() {
   // Seed problems
   const problems = [
     TwoSumProblem,
+    ValidParenthesisProblem,
   ];
 
   try {
