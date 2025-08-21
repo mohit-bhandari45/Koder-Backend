@@ -16,18 +16,18 @@ router.use("/user", userRoutes);
 router.use("/submission", submissionRoutes);
 
 // ----------------------------
-// Proxy dashboard requests through main server
+// Proxy ONLY /api/dashboard requests
 // ----------------------------
 router.use(
   "/dashboard",
   createProxyMiddleware({
     target:
       process.env.NODE_ENV === "production"
-        ? "https://koder-dashboard-main.onrender.com/dashboard"
-        : "http://localhost:8000/dashboard",
+        ? "https://koder-dashboard-main.onrender.com" // remove /dashboard here
+        : "http://localhost:8000",
     changeOrigin: true,
     secure: false,
-    cookieDomainRewrite: "",
+    pathRewrite: { "^/dashboard": "/dashboard" }, // keeps /dashboard in path
     on: {
       proxyReq: (proxyReq, req) => {
         const expressReq = req as import("express").Request;
@@ -39,7 +39,6 @@ router.use(
         }
       },
       proxyRes: (proxyRes, req, res) => {
-        // Ensure CORS headers are visible to browser
         proxyRes.headers["Access-Control-Allow-Origin"] =
           process.env.NODE_ENV === "production"
             ? "https://koder-frontend.vercel.app"
@@ -49,6 +48,5 @@ router.use(
     },
   })
 );
-
 
 export default router;
