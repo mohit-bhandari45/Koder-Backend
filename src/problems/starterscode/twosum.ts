@@ -31,7 +31,7 @@ function twoSum(nums, target) {
  * Do not modify this block
  ********************/
 const result = twoSum(nums, target);
-console.log(JSON.stringify(result).replace(",", ", "));
+console.log(JSON.stringify(result));
 `.trim();
 
 export const pythonStarter = `
@@ -68,7 +68,7 @@ def twoSum(nums, target):
 # Do not modify this block
 # ============================
 result = twoSum(nums, target)
-print(result)
+print(f"[{','.join(map(str, result))}]")
 `.trim();
 
 export const javaStarter = `
@@ -107,7 +107,14 @@ public class Main {
         }
         int target = Integer.parseInt(sc.nextLine());
         int[] result = twoSum(nums, target);
-        System.out.println(Arrays.toString(result));
+
+        // Print without spaces
+        System.out.print("[");
+        for (int i = 0; i < result.length; i++) {
+          System.out.print(result[i]);
+          if (i < result.length - 1) System.out.print(",");
+        }
+        System.out.println("]");
     }
 }
 `.trim();
@@ -136,7 +143,12 @@ using namespace std;
    Implement the required function below
 ============================ */
 vector<int> twoSum(vector<int>& nums, int target) {
-    // TODO: Write your code here
+    unordered_map<int, int> map;
+    for (int i = 0; i < nums.size(); ++i) {
+        int complement = target - nums[i];
+        if (map.count(complement)) return {map[complement], i};
+        map[nums[i]] = i;
+    }
     return {};
 }
 
@@ -158,7 +170,6 @@ int main() {
     vector<int> result = twoSum(nums, target);
     cout << "[";
     for (int i = 0; i < result.size(); ++i) {
-        if (i > 0) cout << ", ";
         cout << result[i];
     }
     cout << "]" << endl;
@@ -185,8 +196,19 @@ export const cStarter = `
    Implement the required function below
 ============================ */
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    // TODO: Write your code here
+    int* result = (int*)malloc(2 * sizeof(int));
+    for (int i = 0; i < numsSize; ++i) {
+        for (int j = i + 1; j < numsSize; ++j) {
+            if (nums[i] + nums[j] == target) {
+                result[0] = i;
+                result[1] = j;
+                *returnSize = 2;
+                return result;
+            }
+        }
+    }
     *returnSize = 0;
+    free(result);
     return NULL;
 }
 
@@ -208,10 +230,9 @@ int main() {
     int returnSize;
     int* result = twoSum(nums, n, target, &returnSize);
 
-    // Print result in [x, y] format
+    // Print result in [x,y] format (no spaces)
     printf("[");
     for (int i = 0; i < returnSize; ++i) {
-        if (i > 0) printf(", ");
         printf("%d", result[i]);
     }
     printf("]\\n");
@@ -220,6 +241,7 @@ int main() {
     return 0;
 }
 `.trim();
+
 
 export const goStarter = `
 /* ============================
@@ -272,13 +294,13 @@ func main() {
     // Call user's function
     result := twoSum(nums, target)
 
-    // Print result in [x, y] format
+    // Print result in [x,y] format (no spaces)
     fmt.Print("[")
     for i, val := range result {
-        if i > 0 {
-            fmt.Print(", ")
-        }
         fmt.Print(val)
+        if i < len(result)-1 {
+            fmt.Print(",")
+        }
     }
     fmt.Println("]")
 }
@@ -313,27 +335,29 @@ target = gets.strip.to_i
 # Call user's function
 result = twoSum(nums, target)
 
-# Print result in [x, y] format
-puts result.inspect
+# Print result in [x,y] format (no spaces)
+print "["
+print result.join(",")
+puts "]"
 `.trim();
 
 export const rustStarter = `
 /* ============================
    IMPORTS
    Add your imports here if needed
-   ============================ */
+============================ */
 use std::collections::HashMap;
 use std::io::{self, BufRead};
 
 /* ============================
    HELPER FUNCTIONS (Optional)
    Define additional helper functions here
-   ============================ */
+============================ */
 
 /* ============================
    MAIN FUNCTION
    Implement the required function below
-   ============================ */
+============================ */
 fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
     // TODO: Write your code here
     Vec::new()
@@ -342,7 +366,7 @@ fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
 /* ============================
    DRIVER CODE / INPUT HANDLING
    Do not modify this block
-   ============================ */
+============================ */
 fn main() {
     let stdin = io::stdin();
     let mut lines = stdin.lock().lines();
@@ -355,7 +379,16 @@ fn main() {
     let target: i32 = lines.next().unwrap().unwrap().parse().unwrap();
 
     let result = two_sum(nums, target);
-    println!("{:?}", result);
+
+    // Print result in [x,y] format (no spaces)
+    print!("[");
+    for (i, val) in result.iter().enumerate() {
+        print!("{}", val);
+        if i < result.len() - 1 {
+            print!(",");
+        }
+    }
+    println!("]");
 }
 `.trim();
 
@@ -363,19 +396,19 @@ export const kotlinStarter = `
 /* ============================
    IMPORTS
    Add your imports here if needed
-   ============================ */
+============================ */
 import java.util.*
 import kotlin.collections.*
 
 /* ============================
    HELPER FUNCTIONS (Optional)
    Define additional helper functions here
-   ============================ */
+============================ */
 
 /* ============================
    MAIN FUNCTION
    Implement the required function below
-   ============================ */
+============================ */
 fun twoSum(nums: IntArray, target: Int): IntArray {
     // TODO: Write your code here
     return intArrayOf()
@@ -384,13 +417,13 @@ fun twoSum(nums: IntArray, target: Int): IntArray {
 /* ============================
    DRIVER CODE / INPUT HANDLING
    Do not modify this block
-   ============================ */
+============================ */
 fun main() {
     val nums = readLine()!!.split(" ").map { it.toInt() }.toIntArray()
     val target = readLine()!!.toInt()
 
     val result = twoSum(nums, target)
-    println(result.joinToString(prefix = "[", postfix = "]", separator = ", "))
+    println(result.joinToString(prefix = "[", postfix = "]", separator = ","))
 }
 `.trim();
 
@@ -398,18 +431,18 @@ export const swiftStarter = `
 /* ============================
    IMPORTS
    Add your imports here if needed
-   ============================ */
+============================ */
 import Foundation
 
 /* ============================
    HELPER FUNCTIONS (Optional)
    Define additional helper functions here
-   ============================ */
+============================ */
 
 /* ============================
    MAIN FUNCTION
    Implement the required function below
-   ============================ */
+============================ */
 func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     // TODO: Write your code here
     return []
@@ -418,11 +451,13 @@ func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
 /* ============================
    DRIVER CODE / INPUT HANDLING
    Do not modify this block
-   ============================ */
+============================ */
 let nums = readLine()!.split(separator: " ").map { Int($0)! }
 let target = Int(readLine()!)!
 let result = twoSum(nums, target)
-print(result)
+
+// Print without spaces
+print("[\(result.map { String($0) }.joined(separator: ","))]")
 `.trim();
 
 export const perlStarter = `
@@ -451,46 +486,64 @@ my @nums = split(' ', $line);
 chomp(my $target = <STDIN>);
 
 my @result = twoSum(\@nums, $target);
-print "[" . join(", ", @result) . "]\n";
+print "[" . join(",", @result) . "]\n";
 `.trim();
 
 export const scalaStarter = `
-object Main {
-  // ============================
-  // HELPER FUNCTIONS (Optional)
-  // Define additional helper functions here
-  // ============================
+/* ============================
+   IMPORTS / HEADERS
+   Add your imports here if needed
+============================ */
 
-  // ============================
-  // MAIN FUNCTION
-  // Implement the required function below
-  // ============================
-  def twoSum(nums: Array[Int], target: Int): Array[Int] = {
+/* ============================
+   HELPER FUNCTIONS (Optional)
+   Define additional helper functions here
+============================ */
+
+/* ============================
+   MAIN FUNCTION
+   Implement the required function below
+============================ */
+def twoSum(nums: Array[Int], target: Int): Array[Int] = {
     // TODO: Write your code here
     Array()
-  }
+}
 
-  // ============================
-  // DRIVER CODE / INPUT HANDLING
-  // Do not modify this block
-  // ============================
-  def main(args: Array[String]): Unit = {
-    val nums = scala.io.StdIn.readLine().split(" ").map(_.toInt)
-    val target = scala.io.StdIn.readLine().toInt
-    val result = twoSum(nums, target)
-    println(result.mkString("[", ", ", "]"))
-  }
+/* ============================
+   DRIVER CODE / INPUT HANDLING
+   Do not modify this block
+============================ */
+object Main {
+    def main(args: Array[String]): Unit = {
+        val nums = scala.io.StdIn.readLine().split(" ").map(_.toInt)
+        val target = scala.io.StdIn.readLine().toInt
+        val result = twoSum(nums, target)
+        println(result.mkString("[", ",", "]"))
+    }
 }
 `.trim();
 
 export const haskellStarter = `
 -- ============================
+-- IMPORTS / HEADERS
+-- Add your imports here if needed
+-- ============================
+import Data.List (intercalate)
+
+-- ============================
+-- HELPER FUNCTIONS (Optional)
+-- Define additional helper functions here
+-- ============================
+
+-- ============================
 -- MAIN FUNCTION
 -- Implement the required function below
 -- ============================
 twoSum :: [Int] -> Int -> [Int]
-twoSum nums target = []
-  
+twoSum nums target = 
+    -- TODO: Write your code here
+    []
+
 -- ============================
 -- DRIVER CODE / INPUT HANDLING
 -- Do not modify this block
@@ -499,15 +552,14 @@ main = do
     nums <- fmap (map read . words) getLine
     target <- fmap read getLine
     let result = twoSum nums target
-    putStrLn ("[" ++ intercalate ", " (map show result) ++ "]")
+    putStrLn ("[" ++ intercalate "," (map show result) ++ "]")
 `.trim();
 
 export const rStarter = `
 # ============================
-# IMPORTS (Optional)
+# IMPORTS / LIBRARIES (Optional)
 # Add any libraries you need here
 # ============================
-# Example: library(dplyr)
 
 # ============================
 # DRIVER CODE / INPUT HANDLING
@@ -516,7 +568,7 @@ export const rStarter = `
 all_input <- readLines("stdin")
 
 nums <- if (length(all_input) >= 1 && nchar(trimws(all_input[1])) > 0) {
-  as.integer(unlist(strsplit(trimws(all_input[1]), "\\s+")))
+  as.integer(unlist(strsplit(trimws(all_input[1]), "\\\\s+")))
 } else {
   integer(0)
 }
@@ -529,7 +581,7 @@ target <- if (length(all_input) >= 2 && nchar(trimws(all_input[2])) > 0) {
 
 # ============================
 # HELPER FUNCTIONS (Optional)
-# You may define additional helper functions here
+# Define additional helper functions here
 # ============================
 
 # ============================
@@ -548,36 +600,43 @@ twoSum <- function(nums, target) {
 # ============================
 result <- twoSum(nums, target)
 
-# Print output in Judge0-friendly format like [0, 2]
-cat("[", paste(result, collapse = ", "), "]\\n", sep = "")
+# Print output in [i,j] format without spaces
+cat("[", paste(result, collapse=","), "]\\n", sep = "")
 `.trim();
 
-
 export const dartStarter = `
-/* ============================
-   HELPER FUNCTIONS (Optional)
-   Define additional helper functions here
-   ============================ */
+# ============================
+# IMPORTS / LIBRARIES (Optional)
+# Add any imports here if needed
+# ============================
+import 'dart:io';
 
-/* ============================
-   MAIN FUNCTION
-   Implement the required function below
-   ============================ */
+# ============================
+# HELPER FUNCTIONS (Optional)
+# Define additional helper functions here
+# ============================
+
+# ============================
+# MAIN FUNCTION
+# Implement the required function below
+# ============================
 List<int> twoSum(List<int> nums, int target) {
   // TODO: Write your code here
+  // Return a list of 0-based indices of the two numbers that sum to target
   return [];
 }
 
-/* ============================
-   DRIVER CODE / INPUT HANDLING
-   Do not modify this block
-   ============================ */
-import 'dart:io';
+# ============================
+# DRIVER CODE / INPUT HANDLING
+# Do not modify this block
+# ============================
 void main() {
   List<int> nums = stdin.readLineSync()!.split(' ').map(int.parse).toList();
   int target = int.parse(stdin.readLineSync()!);
   var result = twoSum(nums, target);
-  print(result);
+
+  // Print output in [i,j] format without spaces
+  print("[" + result.join(",") + "]");
 }
 `.trim();
 
@@ -589,6 +648,7 @@ export const elixirStarter = `
 defmodule Solution do
   def two_sum(nums, target) do
     # TODO: Write your code here
+    # Return a list of 0-based indices of the two numbers that sum to target
     []
   end
 end
@@ -601,38 +661,37 @@ end
 nums = String.trim(line1) |> String.split(" ") |> Enum.map(&String.to_integer/1)
 target = String.trim(line2) |> String.to_integer()
 result = Solution.two_sum(nums, target)
-IO.inspect(result)
+
+# Print output in [i,j] format without spaces
+IO.puts("[" <> Enum.join(result, ",") <> "]")
 `.trim();
 
 export const csharpStarter = `
 /* ============================
-   HELPER FUNCTIONS (Optional)
-   Define additional helper functions here
-   ============================ */
-
-/* ============================
    MAIN FUNCTION
    Implement the required function below
-   ============================ */
-public static int[] TwoSum(int[] nums, int target) {
-  // TODO: Write your code here
-  return new int[] {};
-}
-
-/* ============================
-   DRIVER CODE / INPUT HANDLING
-   Do not modify this block
    ============================ */
 using System;
 using System.Linq;
 
 class Solution {
+    public static int[] TwoSum(int[] nums, int target) {
+        // TODO: Write your code here
+        // Return an array of 0-based indices of the two numbers that sum to target
+        return new int[] {};
+    }
+
+    /* ============================
+       DRIVER CODE / INPUT HANDLING
+       Do not modify this block
+       ============================ */
     public static void Main() {
         string[] input = Console.ReadLine().Split(' ');
         int[] nums = Array.ConvertAll(input, int.Parse);
         int target = int.Parse(Console.ReadLine());
         int[] result = TwoSum(nums, target);
-        Console.WriteLine("[" + string.Join(", ", result) + "]");
+        // Print output in [i,j] format without spaces
+        Console.WriteLine("[" + string.Join(",", result) + "]");
     }
 }
 `.trim();

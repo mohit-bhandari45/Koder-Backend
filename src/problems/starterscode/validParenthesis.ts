@@ -22,7 +22,7 @@ function isValid(s) {
  ********************/
 // Example: Input "()[]{}"
 const result = isValid(s);
-console.log(result ? "true" : "false");
+console.log(result);
 `.trim(),
 
   pythonStarter: `
@@ -43,7 +43,7 @@ def is_valid(s):
 # DRIVER CODE
 # ============================
 # Example: Input "()[]{}"
-print("true" if is_valid(s) else "false")
+print(is_valid(s))
 `.trim(),
 
   javaStarter: `
@@ -69,7 +69,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
         // Example: Input "()[]{}"
-        System.out.println(isValid(s) ? "true" : "false");
+        System.out.println(isValid(s));
     }
 }
 `.trim(),
@@ -98,7 +98,7 @@ int main() {
     string s;
     getline(cin, s);
     // Example: Input "()[]{}"
-    cout << (is_valid(s) ? "true" : "false") << endl;
+    cout << (is_valid(s)) << endl;
     return 0;
 }
 `.trim(),
@@ -126,7 +126,7 @@ int main() {
     fgets(s, sizeof(s), stdin);
     int result = is_valid(s);
     // Example: Input "()[]{}"
-    printf(result ? "true\\n" : "false\\n");
+    printf(result);
     return 0;
 }
 `.trim(),
@@ -167,7 +167,7 @@ func main() {
 # ============================
 # INPUT HANDLING
 # ============================
-s = gets.strip
+s = gets&.strip || ""
 
 # ============================
 # MAIN FUNCTION
@@ -180,7 +180,7 @@ end
 # DRIVER CODE
 # ============================
 # Example: Input "()[]{}"
-puts is_valid(s) ? "true" : "false"
+puts is_valid(s)
 `.trim(),
 
   rustStarter: `
@@ -204,7 +204,7 @@ fn main() {
     let stdin = io::stdin();
     let s = stdin.lock().lines().next().unwrap().unwrap();
     // Example: Input "()[]{}"
-    println!("{}", if is_valid(s) { "true" } else { "false" });
+    println!("{}", is_valid(s));
 }
 `.trim(),
 
@@ -227,7 +227,7 @@ is_valid <- function(s) {
 # DRIVER CODE
 # ============================
 # Example: Input "()[]{}"
-cat(ifelse(is_valid(s), "true\\n", "false\\n"))
+print(is_valid(s))
 `.trim(),
 
   perlStarter: `
@@ -251,7 +251,7 @@ sub is_valid {
 # DRIVER CODE
 # ============================
 # Example: Input "()[]{}"
-print is_valid($s) ? "true\\n" : "false\\n";
+print is_valid($s), "\\n";
 `.trim(),
 
   dartStarter: `
@@ -274,11 +274,16 @@ bool isValid(String s) {
 // Example: Input "()[]{}"
 void main() {
   String s = stdin.readLineSync()!.trim();
-  print(isValid(s) ? "true" : "false");
+  print(isValid(s));
 }
 `.trim(),
 
   haskellStarter: `
+-- ============================
+-- INPUT HANDLING
+-- ============================
+import System.IO (isEOF)
+
 -- ============================
 -- MAIN FUNCTION
 -- ============================
@@ -288,10 +293,10 @@ isValid s = False  -- TODO: Implement using stack
 -- ============================
 -- DRIVER CODE
 -- ============================
--- Example: Input "()[]{}"
+main :: IO ()
 main = do
     s <- getLine
-    putStrLn $ if isValid s then "true" else "false"
+    print (isValid s)
 `.trim(),
 
   kotlinStarter: `
@@ -314,7 +319,7 @@ fun isValid(s: String): Boolean {
 // Example: Input "()[]{}"
 fun main() {
     val s = readLine()!!.trim()
-    println(if (isValid(s)) "true" else "false")
+    println(isValid(s))
 }
 `.trim(),
 
@@ -335,7 +340,7 @@ end
 [s] = IO.stream(:stdio, :line) |> Enum.take(1)
 s = String.trim(s)
 # Example: Input "()[]{}"
-IO.puts(if Solution.is_valid(s), do: "true", else: "false")
+Solution.is_valid(s)
 `.trim(),
 
   csharpStarter: `
@@ -355,7 +360,7 @@ using System;
 class Program {
     static void Main() {
         string s = Console.ReadLine().Trim();
-        Console.WriteLine(IsValid(s) ? "true" : "false");
+        Console.WriteLine(IsValid(s));
     }
 }
 `.trim(),
@@ -379,7 +384,7 @@ func isValid(_ s: String) -> Bool {
    ============================ */
 // Example: Input "()[]{}"
 let s = readLine()!.trimmingCharacters(in: .whitespacesAndNewlines)
-print(isValid(s) ? "true" : "false")
+print(isValid(s))
 `.trim(),
 
   scalaStarter: `
@@ -398,7 +403,7 @@ object Main {
     // Example: Input "()[]{}"
     def main(args: Array[String]): Unit = {
         val s = scala.io.StdIn.readLine().trim
-        println(if (isValid(s)) "true" else "false")
+        println(isValid(s))
     }
 }
 `.trim(),

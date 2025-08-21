@@ -23,7 +23,7 @@ router.use(
   createProxyMiddleware({
     target:
       process.env.NODE_ENV === "production"
-        ? "https://koder-dashboard.onrender.com/dashboard"
+        ? "https://koder-dashboard-main.onrender.com/dashboard"
         : "http://localhost:8000/dashboard",
     changeOrigin: true,
     secure: false,

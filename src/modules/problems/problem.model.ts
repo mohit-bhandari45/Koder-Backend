@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import { IProblem, ITestCase } from "../../types/problem.types";
 import SubmissionModel from "../submissions/submission.model";
 
-const testCaseSchema = new Schema<ITestCase>({
+const testCaseSchema = new Schema({
   input: {
     type: String,
     required: true,
@@ -11,8 +11,18 @@ const testCaseSchema = new Schema<ITestCase>({
     type: String,
     required: true,
   },
-  stdin: { type: String },
-  explanation: { type: String },
+  explanation: {
+    type: String,
+    required: true
+  },
+  stdin: {
+    type: String,
+    default: ""
+  },
+  stdout: {
+    type: Schema.Types.Mixed,
+    required: true
+  }
 });
 
 const exampleSchema = new Schema(
