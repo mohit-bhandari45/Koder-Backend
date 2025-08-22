@@ -25,14 +25,14 @@ router.use(
   createProxyMiddleware({
     target:
       process.env.NODE_ENV === "production"
-        ? "https://koder-dashboard-main.onrender.com" // remove /dashboard here
-        : "http://localhost:8000",
+        ? "https://koder-dashboard-main.onrender.com/dashboard" // remove /dashboard here
+        : "http://localhost:8000/dashboard",
     changeOrigin: true,
     secure: false,
-    pathRewrite: { "^/dashboard": "/dashboard" }, // keeps /dashboard in path
     on: {
       proxyReq: (proxyReq, req) => {
         const expressReq = req as import("express").Request;
+
         if (expressReq.cookies?.accessToken) {
           proxyReq.setHeader(
             "Authorization",
