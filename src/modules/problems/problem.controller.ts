@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import ProblemModel from "./problem.model";
+import { AppError } from "../../utils/appError.utils";
+import { makeResponse } from "../../utils/makeResponse.utils";
 
 /**
  * Get all problems
@@ -13,19 +15,25 @@ async function getAllProblemsHandler(req: Request, res: Response) {
     const page = parseInt(req.query.page as string) || 1;
     const limit = 30;
     const skip = (page - 1) * limit;
+
     try {
         const problems = await ProblemModel.find().skip(skip).limit(limit);
         const totalProblems = await ProblemModel.countDocuments();
-        res.json({
-            message: "Problems fetched successfully",
+
+        let result = {
             data: problems,
             currentPage: page,
             totalPages: Math.ceil(totalProblems / limit),
-        });
-        return;
+        }
+        res.status(200).json(makeResponse("Problems fetched successfully", result))
     } catch (error) {
-        res.status(500).json({ message: "Internal server error" });
-        return;
+        if (error instanceof AppError) {
+            res.status(error.statusCode).json(makeResponse(error.message));
+            return;
+        }
+
+        console.error("Unexpected Error:", error);
+        res.status(500).json(makeResponse("Internal Server Error"));
     }
 }
 
@@ -39,18 +47,22 @@ async function getAllProblemsHandler(req: Request, res: Response) {
  */
 async function addProblemHandler(req: Request, res: Response): Promise<void> {
     const { title, description, testCases } = req.body;
-    
+
     try {
-        if(!title || !description || !testCases) {
-            res.status(400).json({ message: "All fields are required" });
-            return;
+        if (!title || !description || !testCases) {
+            throw new AppError("All fields are required", 400);
         }
 
         const problem = await ProblemModel.create({ title, description, testCases });
-        res.status(201).json({ message: "Problem created successfully", id: problem._id.toString() });
-        return;
+        res.status(200).json(makeResponse("Problems created successfully", problem._id.toString()))
     } catch (error) {
-        res.status(500).json({ message: "Internal server error" });
+        if (error instanceof AppError) {
+            res.status(error.statusCode).json(makeResponse(error.message));
+            return;
+        }
+
+        console.error("Unexpected Error:", error);
+        res.status(500).json(makeResponse("Internal Server Error"));
     }
 }
 
@@ -64,17 +76,23 @@ async function addProblemHandler(req: Request, res: Response): Promise<void> {
  */
 async function getProblemByIdHandler(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
+    
     try {
         const problem = await ProblemModel.findById(id);
         if (!problem) {
-            res.status(404).json({ message: "Problem not found" });
+            throw new AppError("Problem not found", 404);
+        }
+        
+        res.status(200).json(makeResponse("Problems fetched successfully", problem))
+    } catch (error) {
+        if (error instanceof AppError) {
+            res.status(error.statusCode).json(makeResponse(error.message));
             return;
         }
-        res.status(200).json({ message: "Problem fetched successfully", data: problem });
-        return;
-    } catch (error) {
-        res.status(500).json({ message: "Internal server error" });
-    }   
+
+        console.error("Unexpected Error:", error);
+        res.status(500).json(makeResponse("Internal Server Error"));
+    }
 }
 
 export { getAllProblemsHandler, addProblemHandler, getProblemByIdHandler };        

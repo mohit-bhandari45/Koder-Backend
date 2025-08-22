@@ -109,6 +109,13 @@ export const problemSchema = new Schema<IProblem>(
   { timestamps: true }
 );
 
+// text index
+problemSchema.index({
+  title: "text",
+  description: "text",
+  tags: "text"
+});
+
 /**
  * The Below contains all the middlewares
  * needed to put!
