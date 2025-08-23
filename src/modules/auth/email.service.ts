@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import { IEmailEvent } from "../../kafka/producers/emailevent.types";
+import sendEmailEvent from "../../kafka/producers/emailProducer";
 
 export default class MailService {
     private static transporter = nodemailer.createTransport({
@@ -9,7 +11,7 @@ export default class MailService {
         },
     });
 
-    static async sendEmail(to: string, subject: string, text: string, html?: string) {
+    static async sendEmail(to: string, subject: string, html: string, text?: string) {
         return this.transporter.sendMail({
             from: `"Koder" <${process.env.EMAIL_USER}>`,
             to,
@@ -21,7 +23,23 @@ export default class MailService {
 
     static async sendWelcomeEmail(to: string) {
         const subject = "Welcome to our app 🎉";
-        const message = "Thanks for verifying your email. We're glad you're here!";
-        return this.sendEmail(to, subject, message);
+        const html = `
+        <div style="font-family: sans-serif; padding: 20px; color: #333">
+            <h2>Welcome! 🎉</h2>
+            <p>Thanks for verifying your email. We're glad you're here!</p>
+            <p style="font-size: 12px; color: #888;">Koder App Team</p>
+        </div>
+        `;
+        const emailEvent: IEmailEvent = {
+            type: "email-welcome",
+            to,
+            subject,
+            html,
+            timestamp: new Date().toISOString(),
+        };
+        
+        sendEmailEvent(emailEvent).catch(err =>
+            console.error("Failed to push welcome email event to Kafka:", err)
+        );
     }
 }

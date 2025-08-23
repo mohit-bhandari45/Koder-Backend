@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authCheck } from "../../middleware/auth.middleware";
+import { authCheck } from "../../middlewares/auth.middleware";
 import problemRoutes from "../../problems/problem.route";
 import userRoutes from "../../user/user.route";
 import submissionRoutes from "../../submissions/submission.route";

@@ -3,6 +3,8 @@ dotenv.config();
 
 import app from "./app";
 import os from "os";
+import { initProducers } from "./kafka/producers";
+import { initConsumers } from "./kafka/consumers";
 
 const PORT = process.env.PORT || 8000;
 
@@ -23,6 +25,15 @@ app.get("/", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
+
+  try {
+    await initProducers();
+    await initConsumers();
+    console.log("🎉 Kafka producers and consumers are ready");
+  } catch (err) {
+    console.error("❌ Failed to start Kafka:", err);
+    process.exit(1);
+  }
 });

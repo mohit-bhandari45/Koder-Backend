@@ -43,19 +43,6 @@ router.get(
     const refreshToken = generateRefreshToken(user as any);
     await MailService.sendWelcomeEmail(user.email);
 
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? 'none' : 'lax',
-      maxAge: 15 * 60 * 1000 // 15 minutes
-    });
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? 'none' : 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
-
     const redirectUrl = user.username
       ? `${FRONTEND_REDIRECTION_URL}/u/${user.username}?accessToken=${accessToken}&refreshToken=${refreshToken}`
       : `${FRONTEND_REDIRECTION_URL}/auth/username?accessToken=${accessToken}&refreshToken=${refreshToken}`;
@@ -76,19 +63,6 @@ router.get(
     const refreshToken = generateRefreshToken(user as any);
 
     await MailService.sendWelcomeEmail(user.email);
-
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: isProduction ? 'none' : 'lax',
-      maxAge: 15 * 60 * 1000 // 15 minutes
-    });
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: isProduction ? 'none' : 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
 
     const redirectUrl = user.username
       ? `${FRONTEND_REDIRECTION_URL}/u/${user.username}?accessToken=${accessToken}&refreshToken=${refreshToken}`

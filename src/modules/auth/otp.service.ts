@@ -1,3 +1,5 @@
+import { IEmailEvent } from "../../kafka/producers/emailevent.types";
+import sendEmailEvent from "../../kafka/producers/emailProducer";
 import { AppError } from "../../utils/appError.utils";
 import { generateOTP } from "../../utils/generateotp.utils";
 import MailService from "./email.service";
@@ -17,12 +19,6 @@ export class OtpService {
         : "Reset Your Password";
     // const verificationURL = `https://yourapp.com/verify?email=${encodeURIComponent(email)}&type=${type}`;
 
-    const text =
-      type === "verify"
-        ? `Your email verification OTP is ${code}. It is valid for 10 minutes.`
-        : `Your password reset OTP is ${code}. It is valid for 10 minutes.`;
-    // Visit: ${verificationURL}`;
-
     const html = `
       <div style="font-family: sans-serif; padding: 20px; color: #333">
         <h2>Hi there 👋</h2>
@@ -36,9 +32,28 @@ export class OtpService {
       </div>
     `;
 
+    const text =
+      type === "verify"
+        ? `Your email verification OTP is ${code}. It is valid for 10 minutes.`
+        : `Your password reset OTP is ${code}. It is valid for 10 minutes.`;
+    // Visit: ${verificationURL}`;
+
     // <p>Or click the button below to go to the verification page:</p>
 
-    await MailService.sendEmail(email, subject, text, html);
+    // await MailService.sendEmail(email, subject, text, html);  // kafka instead of this
+
+    const emailEvent: IEmailEvent = {
+      type: type === "verify" ? "email-otp" : "email-reset-password",
+      to: email,
+      subject,
+      text,
+      html,
+      meta: { code },
+      timestamp: new Date().toISOString(),
+    };
+
+    sendEmailEvent(emailEvent)
+      .catch(err => console.error("Failed to push OTP email event to Kafka:", err));
   }
 
 
