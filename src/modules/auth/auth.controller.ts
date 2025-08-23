@@ -21,23 +21,7 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
     try {
         const { user, accessToken, refreshToken } = await UserService.register(fullName, email, password);
 
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 15 * 60 * 1000,
-            path: '/',
-        });
-
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            path:'/',
-        });
-
-        res.status(201).json(makeResponse("User registered successfully", user, accessToken));
+        res.status(201).json(makeResponse("User registered successfully", { user, accessToken, refreshToken }));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
@@ -61,21 +45,7 @@ async function loginHandler(req: Request, res: Response): Promise<void> {
     try {
         const { user, accessToken, refreshToken } = await UserService.login(email, password);
 
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 15 * 60 * 1000 // 15 minutes
-        });
-
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        });
-
-        res.status(200).json(makeResponse("Login successful", user, accessToken));
+        res.status(200).json(makeResponse("Login successful", { user, accessToken, refreshToken }));
     } catch (error) {
         if (error instanceof AppError) {
             res.status(error.statusCode).json(makeResponse(error.message));
@@ -128,24 +98,24 @@ async function verifyEmailHandler(req: Request, res: Response): Promise<void> {
  * @method POST
  * @route /auth/refresh
  */
-async function refreshTokenHandler(req: Request, res: Response) {
+async function refreshTokenHandler(req: Request, res: Response): Promise<void> {
     const refreshToken = req.cookies?.refreshToken;
     if (!refreshToken) {
-        return res.status(401).json({ message: "No refresh token provided" });
+        throw new AppError("No refresh token provided", 401);
     }
     try {
         const payload = verifyRefreshToken(refreshToken);
         const newAccessToken = generateAccessToken(payload);
+        
+        res.status(200).json(makeResponse("Access token refreshed", newAccessToken))
+    } catch (error) {
+        if (error instanceof AppError) {
+            res.status(error.statusCode).json(makeResponse(error.message));
+            return;
+        }
 
-        res.cookie('accessToken', newAccessToken, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? 'none' : 'lax',
-            maxAge: 15 * 60 * 1000 // 15 minutes
-        });
-        res.status(200).json({ message: "Access token refreshed" });
-    } catch (err) {
-        res.status(401).json({ message: "Invalid refresh token" });
+        console.error("Unexpected Error:", error);
+        res.status(500).json(makeResponse("Internal Server Error"));
     }
 }
 
