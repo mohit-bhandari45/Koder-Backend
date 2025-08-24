@@ -52,9 +52,7 @@
     "passport-google-oauth20": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "uuid": "^11.1.0"
-  },
-  "devDependencies": {
+    "uuid": "^11.1.0",
     "concurrently": "^9.2.0"
   }
 }
