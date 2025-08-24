@@ -1,3 +1,4 @@
+import { emailQueue } from "../../bullmq/queues/emailQueue";
 import { IEmailEvent } from "../../kafka/producers/emailevent.types";
 import sendEmailEvent from "../../kafka/producers/emailProducer";
 import { AppError } from "../../utils/appError.utils";
@@ -42,18 +43,32 @@ export class OtpService {
 
     // await MailService.sendEmail(email, subject, text, html);  // kafka instead of this
 
-    const emailEvent: IEmailEvent = {
-      type: type === "verify" ? "email-otp" : "email-reset-password",
-      to: email,
-      subject,
-      text,
-      html,
-      meta: { code },
-      timestamp: new Date().toISOString(),
-    };
+    /* KAFKA */
+    // const emailEvent: IEmailEvent = {
+    //   type: type === "verify" ? "email-otp" : "email-reset-password",
+    //   to: email,
+    //   subject,
+    //   text,
+    //   html,
+    //   meta: { code },
+    //   timestamp: new Date().toISOString(),
+    // };
 
-    sendEmailEvent(emailEvent)
-      .catch(err => console.error("Failed to push OTP email event to Kafka:", err));
+    // sendEmailEvent(emailEvent)
+    //   .catch(err => console.error("Failed to push OTP email event to Kafka:", err));
+
+    /* BULLMQ */
+    const job = await emailQueue.add(
+      type === "verify" ? "email-otp" : "email-reset-password",
+      { to: email, subject, text, html, meta: { code } },
+      {
+        attempts: 3,
+        backoff: 5000,
+        removeOnComplete: true,
+      }
+    );
+
+    console.log("📥 Job added to queue:", job.id, job.name);
   }
 
 

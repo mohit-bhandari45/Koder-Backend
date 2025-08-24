@@ -66,7 +66,13 @@ export const getAllUserSubmissions = async (req: Request, res: Response): Promis
 
     try {
         const totalSubmissions = await SubmissionModel.countDocuments({ userId });
-        const allSubmissions = await SubmissionModel.find({ userId })
+        const allSubmissions = await SubmissionModel.find(
+            { userId },
+            { _id: 1, status: 1, language: 1, createdAt: 1 })
+            .populate({
+                path: "problemId",
+                select: "title _id"
+            })
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);

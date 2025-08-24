@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import { IEmailEvent } from "../../kafka/producers/emailevent.types";
 import sendEmailEvent from "../../kafka/producers/emailProducer";
+import { emailQueue } from "../../bullmq/queues/emailQueue";
 
 export default class MailService {
     private static transporter = nodemailer.createTransport({
@@ -30,16 +31,26 @@ export default class MailService {
             <p style="font-size: 12px; color: #888;">Koder App Team</p>
         </div>
         `;
-        const emailEvent: IEmailEvent = {
-            type: "email-welcome",
-            to,
-            subject,
-            html,
-            timestamp: new Date().toISOString(),
-        };
-        
-        sendEmailEvent(emailEvent).catch(err =>
-            console.error("Failed to push welcome email event to Kafka:", err)
-        );
+
+        /* KAFKA */
+        // const emailEvent: IEmailEvent = {
+        //     type: "email-welcome",
+        //     to,
+        //     subject,
+        //     html,
+        //     timestamp: new Date().toISOString(),
+        // };
+
+        // sendEmailEvent(emailEvent).catch(err =>
+        //     console.error("Failed to push welcome email event to Kafka:", err)
+        // );
+
+        /* BULLMQ */
+        const job = await emailQueue.add("email-welcome", { to, subject, html }, {
+            attempts: 3,
+            backoff: 5000,
+            removeOnComplete: true,
+        });
+        console.log(`✅ Email job queued with ID: ${job.id}`);
     }
 }
