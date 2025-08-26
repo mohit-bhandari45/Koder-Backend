@@ -1,10 +1,9 @@
 import { Router } from "express";
 import { authCheck } from "../../middlewares/auth.middleware";
 import problemRoutes from "../../problems/problem.route";
-import userRoutes from "../../user/user.route";
-import submissionRoutes from "../../submissions/submission.route";
 import searchRoutes from "../../search/search.route";
-import { createProxyMiddleware } from "http-proxy-middleware";
+import submissionRoutes from "../../submissions/submission.route";
+import userRoutes from "../../user/user.route";
 
 const router = Router();
 
