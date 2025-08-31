@@ -55,9 +55,17 @@ const userSchema = new Schema<IUser>(
             default: null,
             trim: true,
         },
-        isVerified:{
+        isVerified: {
             type: Boolean,
             default: false
+        },
+        location: {
+            type: String,
+            default: null
+        },
+        institute: {
+            type: String,
+            default: null
         }
     },
     {
