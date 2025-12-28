@@ -38,10 +38,12 @@ export function initializePassport() {
 
           if (!user) {
             user = await User.create({
-              fullname: profile.displayName,
+              fullName: profile.displayName,
               email: profile.emails?.[0]?.value || "",
               profilepicture: profile.photos?.[0]?.value,
               googleId: profile.id,
+              password: "google-oauth",
+              isVerified: true,
             });
           }
           return done(null, user);
@@ -83,10 +85,12 @@ export function initializePassport() {
 
           if (!user) {
             user = await User.create({
-              fullname: profile.displayName || profile.username,
+              fullName: profile.displayName || profile.username,
               email,
               profilepicture: profile.photos?.[0]?.value || "",
               githubId: profile.id,
+              password: "github-oauth",
+              isVerified: true,
             });
           }
 

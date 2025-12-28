@@ -126,9 +126,9 @@ const updateOwnProfileHandler = async (
         throw new AppError("Unauthorized", 401);
     }
 
-    const { fullName, profilepicture } = req.body;
+    const { fullName, profilepicture, githubId, location, institute } = req.body;
 
-    if (!fullName && !profilepicture) {
+    if (!fullName && !profilepicture && !githubId && !location && !institute) {
         throw new AppError("No fields provided to update", 400);
     }
 
@@ -138,6 +138,9 @@ const updateOwnProfileHandler = async (
         // Apply only valid updates
         if (fullName) updates.fullName = fullName.trim();
         if (profilepicture) updates.profilepicture = profilepicture.trim();
+        if (githubId) updates.githubId = githubId;
+        if (location) updates.location = location;
+        if (institute) updates.institute = institute;
 
         const updatedUser = await User.findByIdAndUpdate(
             user._id,

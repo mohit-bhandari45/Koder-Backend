@@ -99,7 +99,7 @@ async function verifyEmailHandler(req: Request, res: Response): Promise<void> {
  * @route /auth/refresh
  */
 async function refreshTokenHandler(req: Request, res: Response): Promise<void> {
-    const refreshToken = req.body;
+    const { refreshToken } = req.body;
     if (!refreshToken) {
         throw new AppError("No refresh token provided", 401);
     }

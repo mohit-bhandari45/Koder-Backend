@@ -13,4 +13,6 @@ export interface IUser {
     githubId: string
     createdAt: Date;
     updatedAt: Date;
+    location: string;
+    institute: string;
   }
