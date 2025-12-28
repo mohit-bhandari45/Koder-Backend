@@ -94,7 +94,7 @@ async function verifyEmailHandler(req: Request, res: Response): Promise<void> {
 }
 
 /**
- * @desc Handles token refereshing
+ * @desc Handles token refreshing
  * @method POST
  * @route /auth/refresh
  */

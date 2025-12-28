@@ -1,10 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import app from "./app";
 import os from "os";
-import { initProducers } from "./kafka/producers";
-import { initConsumers } from "./kafka/consumers";
+import app from "./app";
 
 const PORT = process.env.PORT || 8000;
 
