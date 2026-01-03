@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
-dotenv.config()
-import { Worker, Job } from "bullmq";
+dotenv.config();
+import type { Job } from "bullmq";
+import { Worker } from "bullmq";
 import { emailQueue } from "../queues/emailQueue";
 import MailService from "../../modules/auth/email.service";
 
@@ -17,13 +18,13 @@ const worker = new Worker(
       throw err; // allow BullMQ to handle retries
     }
   },
-  { connection: emailQueue.opts.connection }
+  { connection: emailQueue.opts.connection },
 );
 
 // Event listeners
 worker.on("completed", (job: Job) => console.log(`Job ${job.id} completed`));
 worker.on("failed", (job: Job | undefined, err: Error) =>
-  console.error(`Job ${job?.id} failed:`, err)
+  console.error(`Job ${job?.id} failed:`, err),
 );
 
 worker.on("ready", () => {

@@ -407,6 +407,6 @@ object Main {
     }
 }
 `.trim(),
-}
+};
 
 export default starters;

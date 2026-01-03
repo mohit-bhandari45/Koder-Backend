@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import type mongoose from "mongoose";
 
 export interface ISubmission extends Document {
     userId: mongoose.Types.ObjectId;

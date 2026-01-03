@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../shared/user.model";
 import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils";
-import { IUser } from "../../types/user.types";
+import type { IUser } from "../../types/user.types";
 import { OtpService } from "./otp.service";
 import { AppError } from "../../utils/appError.utils";
 
@@ -12,54 +12,54 @@ interface IAuthResponse {
 }
 
 export class UserService {
-    static async register(fullName: string, email: string, password: string): Promise<IAuthResponse> {
-        // 🔍 Check if user already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            throw new AppError("User already exists!", 400);
-        }
-
-        // ✅ Create user
-        const user = await User.create({
-            fullName,
-            email,
-            password,
-        });
-
-        // 📩 Send email verification OTP
-        await OtpService.generateAndSendOTP(email, "verify");
-
-        // 🎟️ Generate tokens
-        const accessToken = generateAccessToken(user as any);
-        const refreshToken = generateRefreshToken(user as any);
-
-        return { user, accessToken, refreshToken };
+  static async register(fullName: string, email: string, password: string): Promise<IAuthResponse> {
+    // 🔍 Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new AppError("User already exists!", 400);
     }
 
-    static async login(email: string, password: string): Promise<IAuthResponse> {
-        // 1. Find user by email
-        const user = await User.findOne({ email });
+    // ✅ Create user
+    const user = await User.create({
+      fullName,
+      email,
+      password,
+    });
 
-        if (!user) {
-            throw new AppError("Invalid Credentials", 400);
-        }
+    // 📩 Send email verification OTP
+    await OtpService.generateAndSendOTP(email, "verify");
 
-        // 2. Check if password exists (social login users may not have one)
-        if (!user.password) {
-            throw new AppError("Account has no password. Use social login or set a password.", 400);
-        }
+    // 🎟️ Generate tokens
+    const accessToken = generateAccessToken(user as any);
+    const refreshToken = generateRefreshToken(user as any);
 
-        // 3. Compare provided password with hashed password in DB
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            throw new AppError("Invalid Credentials", 400);
-        }
+    return { user, accessToken, refreshToken };
+  }
 
-        // 4. Generate tokens
-        const accessToken = generateAccessToken(user as any);
-        const refreshToken = generateRefreshToken(user as any);
+  static async login(email: string, password: string): Promise<IAuthResponse> {
+    // 1. Find user by email
+    const user = await User.findOne({ email });
 
-        // 5. Return response
-        return { user, accessToken, refreshToken };
+    if (!user) {
+      throw new AppError("Invalid Credentials", 400);
     }
+
+    // 2. Check if password exists (social login users may not have one)
+    if (!user.password) {
+      throw new AppError("Account has no password. Use social login or set a password.", 400);
+    }
+
+    // 3. Compare provided password with hashed password in DB
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new AppError("Invalid Credentials", 400);
+    }
+
+    // 4. Generate tokens
+    const accessToken = generateAccessToken(user as any);
+    const refreshToken = generateRefreshToken(user as any);
+
+    // 5. Return response
+    return { user, accessToken, refreshToken };
+  }
 }

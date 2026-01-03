@@ -9,7 +9,16 @@
     "start": "concurrently \"node dist/index.js\" \"node dist/bullmq/workers/emailWorker.js\"",
     "worker": "ts-node src/bullmq/workers/emailWorker.ts",
     "seed": "ts-node src/seed.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "husky",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "eslint"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -34,6 +43,7 @@
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "bullmq": "^5.58.1",
+    "concurrently": "^9.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
@@ -52,7 +62,14 @@
     "passport-google-oauth20": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "uuid": "^11.1.0",
-    "concurrently": "^9.2.0"
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
+    "@typescript-eslint/parser": "^8.51.0",
+    "eslint": "^9.39.2",
+    "globals": "^17.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
   }
 }

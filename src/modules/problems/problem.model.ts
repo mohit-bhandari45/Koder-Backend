@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import { IProblem, ITestCase } from "../../types/problem.types";
+import type { IProblem} from "../../types/problem.types";
+import { ITestCase } from "../../types/problem.types";
 import SubmissionModel from "../submissions/submission.model";
 
 const testCaseSchema = new Schema({
@@ -13,16 +14,16 @@ const testCaseSchema = new Schema({
   },
   explanation: {
     type: String,
-    required: true
+    required: true,
   },
   stdin: {
     type: String,
-    default: ""
+    default: "",
   },
   stdout: {
     type: Schema.Types.Mixed,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const exampleSchema = new Schema(
@@ -37,7 +38,7 @@ const exampleSchema = new Schema(
     },
     explanation: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const languageCodeSchema = new Schema(
@@ -60,7 +61,7 @@ const languageCodeSchema = new Schema(
     dart: { type: String },
     elixir: { type: String },
   },
-  { _id: false }
+  { _id: false },
 );
 
 export const problemSchema = new Schema<IProblem>(
@@ -106,14 +107,14 @@ export const problemSchema = new Schema<IProblem>(
       type: languageCodeSchema,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // text index
 problemSchema.index({
   title: "text",
   description: "text",
-  tags: "text"
+  tags: "text",
 });
 
 /**
@@ -133,7 +134,7 @@ problemSchema.pre("deleteOne", { document: false, query: true }, async function 
   }
 
   next();
-})
+});
 
 // Cascade delete when using Model.deleteMany()
 problemSchema.pre("deleteMany", { document: false, query: true }, async function (next) {
@@ -146,7 +147,7 @@ problemSchema.pre("deleteMany", { document: false, query: true }, async function
   }
 
   next();
-})
+});
 
 // Cascade delete when using Model.findOneAndDelete() or Model.findByIdAndDelete()
 problemSchema.pre("findOneAndDelete", { document: false, query: true }, async function (next) {

@@ -17,15 +17,15 @@ initializePassport(); //passport initialization
 // middlewares
 app.use(express.json());
 app.use(
-    cors({
-        origin: process.env.NODE_ENV === "production"
-            ? "https://koder-frontend.vercel.app"
-            : "http://localhost:3000",
-        credentials: true,
-    })
+  cors({
+    origin: process.env.NODE_ENV === "production"
+      ? "https://koder-frontend.vercel.app"
+      : "http://localhost:3000",
+    credentials: true,
+  }),
 );
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);  // auth routes

@@ -1,6 +1,6 @@
 // src/types/express/index.d.ts
 
-import { IUser } from "../user.types"; // ✅ path relative to this file
+import type { IUser } from "../user.types"; // ✅ path relative to this file
 
 declare global {
   namespace Express {

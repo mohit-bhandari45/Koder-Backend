@@ -5,15 +5,15 @@ interface IResponse {
 }
 
 export function makeResponse(message: string, data?: any, token?: string): IResponse {
-    const response: IResponse = { message };
+  const response: IResponse = { message };
 
-    if (data !== null && data !== undefined) {
-        response.data = data;
-    }
+  if (data !== null && data !== undefined) {
+    response.data = data;
+  }
 
-    if (token !== null && token !== undefined) {
-        response.token = token;
-    }
+  if (token !== null && token !== undefined) {
+    response.token = token;
+  }
 
-    return response;
+  return response;
 }

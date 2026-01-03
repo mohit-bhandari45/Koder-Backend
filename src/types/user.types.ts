@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import type { ObjectId } from "mongoose";
 
 // Interface for User document
 export interface IUser {

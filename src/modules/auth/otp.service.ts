@@ -24,8 +24,8 @@ export class OtpService {
       <div style="font-family: sans-serif; padding: 20px; color: #333">
         <h2>Hi there 👋</h2>
         <p>${type === "verify"
-        ? "Use the OTP below to verify your email address:"
-        : "Use the OTP below to reset your password:"}</p>
+    ? "Use the OTP below to verify your email address:"
+    : "Use the OTP below to reset your password:"}</p>
         <h1 style="color: #4CAF50; font-size: 32px;">${code}</h1>
         <p>This code is valid for <strong>10 minutes</strong>.</p>
         <p style="margin-top: 30px;">If you did not request this, you can safely ignore this email.</p>
@@ -65,7 +65,7 @@ export class OtpService {
         attempts: 3,
         backoff: 5000,
         removeOnComplete: true,
-      }
+      },
     );
 
     console.log("📥 Job added to queue:", job.id, job.name);
