@@ -19,9 +19,19 @@ async function signupHandler(req: Request, res: Response): Promise<void> {
   const { fullName, email, password } = req.body;
 
   try {
-    const { user, accessToken, refreshToken } = await UserService.register(fullName, email, password);
+    const { user, accessToken, refreshToken } = await UserService.register(
+      fullName,
+      email,
+      password,
+    );
 
-    res.status(201).json(makeResponse("User registered successfully", { user, accessToken, refreshToken }));
+    res.status(201).json(
+      makeResponse("User registered successfully", {
+        user,
+        accessToken,
+        refreshToken,
+      }),
+    );
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -43,9 +53,16 @@ async function loginHandler(req: Request, res: Response): Promise<void> {
   const { email, password } = req.body;
 
   try {
-    const { user, accessToken, refreshToken } = await UserService.login(email, password);
+    const { user, accessToken, refreshToken } = await UserService.login(
+      email,
+      password,
+    );
 
-    res.status(200).json(makeResponse("Login successful", { user, accessToken, refreshToken }));
+    res
+      .status(200)
+      .json(
+        makeResponse("Login successful", { user, accessToken, refreshToken }),
+      );
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -106,8 +123,10 @@ async function refreshTokenHandler(req: Request, res: Response): Promise<void> {
   try {
     const payload = verifyRefreshToken(refreshToken);
     const newAccessToken = generateAccessToken(payload);
-        
-    res.status(200).json(makeResponse("Access token refreshed", newAccessToken));
+
+    res
+      .status(200)
+      .json(makeResponse("Access token refreshed", newAccessToken));
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -124,7 +143,10 @@ async function refreshTokenHandler(req: Request, res: Response): Promise<void> {
  * @method POST
  * @route /auth/forgot-password
  */
-async function forgotPasswordHandler(req: Request, res: Response): Promise<void> {
+async function forgotPasswordHandler(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const { email } = req.body;
 
   try {
@@ -135,7 +157,9 @@ async function forgotPasswordHandler(req: Request, res: Response): Promise<void>
 
     await OtpService.generateAndSendOTP(email, "reset-password");
 
-    res.status(200).json(makeResponse("OTP sent to your email for password reset"));
+    res
+      .status(200)
+      .json(makeResponse("OTP sent to your email for password reset"));
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -152,7 +176,10 @@ async function forgotPasswordHandler(req: Request, res: Response): Promise<void>
  * @method POST
  * @route /auth/verify-reset-otp
  */
-async function verifyResetOtpHandler(req: Request, res: Response): Promise<void> {
+async function verifyResetOtpHandler(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const { email, code } = req.body;
 
   try {
@@ -160,7 +187,9 @@ async function verifyResetOtpHandler(req: Request, res: Response): Promise<void>
 
     await OtpService.verifyOtp(email, code, "reset-password");
 
-    res.status(200).json(makeResponse("OTP verified. You may now reset your password."));
+    res
+      .status(200)
+      .json(makeResponse("OTP verified. You may now reset your password."));
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -258,4 +287,14 @@ async function logoutHandler(req: Request, res: Response): Promise<void> {
   res.status(200).json(makeResponse("Logout successful"));
 }
 
-export { refreshTokenHandler, signupHandler, loginHandler, verifyEmailHandler, logoutHandler, forgotPasswordHandler, resendOtpHandler, verifyResetOtpHandler, resetPasswordHandler };
+export {
+  refreshTokenHandler,
+  signupHandler,
+  loginHandler,
+  verifyEmailHandler,
+  logoutHandler,
+  forgotPasswordHandler,
+  resendOtpHandler,
+  verifyResetOtpHandler,
+  resetPasswordHandler,
+};

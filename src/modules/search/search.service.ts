@@ -1,8 +1,17 @@
 import ProblemModel from "../problems/problem.model";
 
-export const searchProblems = async (query: string, skip: number, limit: number) => {
+export const searchProblems = async (
+  query: string,
+  skip: number,
+  limit: number,
+) => {
   let filter: any = { $text: { $search: query } };
-  let projection: any = { score: { $meta: "textScore" }, _id: 1, title: 1, difficulty: 1 };
+  let projection: any = {
+    score: { $meta: "textScore" },
+    _id: 1,
+    title: 1,
+    difficulty: 1,
+  };
   let sort: any = { score: { $meta: "textScore" } };
 
   let results = await ProblemModel.find(filter, projection)

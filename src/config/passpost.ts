@@ -6,13 +6,15 @@ import User from "../modules/shared/user.model";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const GOOGLE_CALLBACK_URL = (isProduction
-  ? process.env.GOOGLE_PROD_CALLBACK_URL
-  : process.env.GOOGLE_DEV_CALLBACK_URL) || "";
+const GOOGLE_CALLBACK_URL =
+  (isProduction
+    ? process.env.GOOGLE_PROD_CALLBACK_URL
+    : process.env.GOOGLE_DEV_CALLBACK_URL) || "";
 
-const GITHUB_CALLBACK_URL = (isProduction
-  ? process.env.GITHUB_PROD_CALLBACK_URL
-  : process.env.GITHUB_DEV_CALLBACK_URL) || "";
+const GITHUB_CALLBACK_URL =
+  (isProduction
+    ? process.env.GITHUB_PROD_CALLBACK_URL
+    : process.env.GITHUB_DEV_CALLBACK_URL) || "";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || "";
@@ -61,20 +63,40 @@ export function initializePassport() {
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: GITHUB_CALLBACK_URL,
       },
-      async (accessToken: any, refreshToken: any, profile: { emails: { value: any; }[]; displayName: any; id: string, username: any; photos: { value: any; }[]; }, done: (arg0: unknown, arg1: any) => any) => {
+      async (
+        accessToken: any,
+        refreshToken: any,
+        profile: {
+          emails: { value: any }[];
+          displayName: any;
+          id: string;
+          username: any;
+          photos: { value: any }[];
+        },
+        done: (arg0: unknown, arg1: any) => any,
+      ) => {
         try {
           // 👇 Fetch verified primary email
-          const { data: emails } = await axios.get("https://api.github.com/user/emails", {
-            headers: {
-              Authorization: `token ${accessToken}`,
-              Accept: "application/vnd.github+json",
+          const { data: emails } = await axios.get(
+            "https://api.github.com/user/emails",
+            {
+              headers: {
+                Authorization: `token ${accessToken}`,
+                Accept: "application/vnd.github+json",
+              },
             },
-          });
+          );
 
-          const primaryEmailObj = emails.find((email: any) => email.primary && email.verified);
+          const primaryEmailObj = emails.find(
+            (email: any) => email.primary && email.verified,
+          );
           const email = primaryEmailObj?.email;
 
-          if (!email) return done(new Error("No verified primary email found"), undefined);
+          if (!email)
+            return done(
+              new Error("No verified primary email found"),
+              undefined,
+            );
 
           let user = await User.findOne({ email });
 
@@ -101,4 +123,4 @@ export function initializePassport() {
       },
     ),
   );
-} 
+}

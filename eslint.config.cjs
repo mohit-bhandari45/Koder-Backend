@@ -2,13 +2,14 @@ const js = require("@eslint/js");
 const tseslint = require("@typescript-eslint/eslint-plugin");
 const tsParser = require("@typescript-eslint/parser");
 const globals = require("globals");
+const prettierConfig = require("eslint-config-prettier");
 
 module.exports = [
   {
     ignores: ["node_modules", "dist", "build"]
   },
+  prettierConfig,
 
-  // Regular TypeScript files
   {
     files: ["src/**/*.ts"],
 
@@ -31,29 +32,25 @@ module.exports = [
       ...js.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
 
-      "quotes": ["error", "double", { "avoidEscape": true }],
-      "semi": ["error", "always"],
-      "indent": ["error", 2],
-      "comma-dangle": ["error", "always-multiline"],
       "prefer-const": "error",
       "no-unused-expressions": "error",
       "no-return-await": "error",
+      "no-useless-escape": "off",
 
       "@typescript-eslint/no-unused-vars": [
         "warn",
-        { "argsIgnorePattern": "^_" }
+        { argsIgnorePattern: "^_" }
       ],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
-        { "prefer": "type-imports" }
+        { prefer: "type-imports" }
       ],
 
       "no-console": "off"
     }
   },
 
-  // ✅ Type declaration files (.d.ts)
   {
     files: ["**/*.d.ts"],
     rules: {

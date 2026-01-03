@@ -53,8 +53,16 @@ async function addProblemHandler(req: Request, res: Response): Promise<void> {
       throw new AppError("All fields are required", 400);
     }
 
-    const problem = await ProblemModel.create({ title, description, testCases });
-    res.status(200).json(makeResponse("Problems created successfully", problem._id.toString()));
+    const problem = await ProblemModel.create({
+      title,
+      description,
+      testCases,
+    });
+    res
+      .status(200)
+      .json(
+        makeResponse("Problems created successfully", problem._id.toString()),
+      );
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -74,16 +82,21 @@ async function addProblemHandler(req: Request, res: Response): Promise<void> {
  * @path /api/problems/:id
  * @method GET
  */
-async function getProblemByIdHandler(req: Request, res: Response): Promise<void> {
+async function getProblemByIdHandler(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const { id } = req.params;
-    
+
   try {
     const problem = await ProblemModel.findById(id);
     if (!problem) {
       throw new AppError("Problem not found", 404);
     }
-        
-    res.status(200).json(makeResponse("Problems fetched successfully", problem));
+
+    res
+      .status(200)
+      .json(makeResponse("Problems fetched successfully", problem));
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -95,4 +108,4 @@ async function getProblemByIdHandler(req: Request, res: Response): Promise<void>
   }
 }
 
-export { getAllProblemsHandler, addProblemHandler, getProblemByIdHandler };        
+export { getAllProblemsHandler, addProblemHandler, getProblemByIdHandler };

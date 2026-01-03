@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { addSubmissionHandler, getAllProblemSubmissions, getAllUserSubmissions, getSubmissionById } from "./submission.controller";
+import {
+  addSubmissionHandler,
+  getAllProblemSubmissions,
+  getAllUserSubmissions,
+  getSubmissionById,
+} from "./submission.controller";
 
 const router = Router();
 

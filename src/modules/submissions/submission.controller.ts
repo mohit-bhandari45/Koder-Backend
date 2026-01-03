@@ -53,7 +53,10 @@ const addSubmissionHandler = async (req: Request, res: Response) => {
  * @path /api/submission/all
  * @method POST
  */
-export const getAllUserSubmissions = async (req: Request, res: Response): Promise<void> => {
+export const getAllUserSubmissions = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const userId = req.user?._id;
 
   if (!userId) {
@@ -68,7 +71,8 @@ export const getAllUserSubmissions = async (req: Request, res: Response): Promis
     const totalSubmissions = await SubmissionModel.countDocuments({ userId });
     const allSubmissions = await SubmissionModel.find(
       { userId },
-      { _id: 1, status: 1, language: 1, createdAt: 1 })
+      { _id: 1, status: 1, language: 1, createdAt: 1 },
+    )
       .populate({
         path: "problemId",
         select: "title _id",
@@ -77,12 +81,14 @@ export const getAllUserSubmissions = async (req: Request, res: Response): Promis
       .skip(skip)
       .limit(limit);
 
-    res.status(200).json(makeResponse("Got all user submissions", {
-      submissions: allSubmissions,
-      page,
-      totalPages: Math.ceil(totalSubmissions / limit),
-      totalSubmissions,
-    }));
+    res.status(200).json(
+      makeResponse("Got all user submissions", {
+        submissions: allSubmissions,
+        page,
+        totalPages: Math.ceil(totalSubmissions / limit),
+        totalSubmissions,
+      }),
+    );
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));
@@ -120,7 +126,9 @@ export const getAllProblemSubmissions = async (req: Request, res: Response) => {
       .populate("problemId", "title difficulty")
       .sort({ createdAt: -1 });
 
-    res.status(200).json(makeResponse("Got all problem submission", submissions));
+    res
+      .status(200)
+      .json(makeResponse("Got all problem submission", submissions));
   } catch (error) {
     if (error instanceof AppError) {
       res.status(error.statusCode).json(makeResponse(error.message));

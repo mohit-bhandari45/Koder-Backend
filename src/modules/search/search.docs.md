@@ -29,7 +29,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -52,7 +52,7 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** (Missing query parameter)
+- **400 Bad Request** (Missing query parameter)
 
 ```json
 {
@@ -60,7 +60,7 @@ http://localhost:8000
 }
 ```
 
-* **500 Internal Server Error**
+- **500 Internal Server Error**
 
 ```json
 {

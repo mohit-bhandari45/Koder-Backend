@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { addProblemHandler, getAllProblemsHandler, getProblemByIdHandler } from "./problem.controller";
+import {
+  addProblemHandler,
+  getAllProblemsHandler,
+  getProblemByIdHandler,
+} from "./problem.controller";
 
 const router = Router();
 

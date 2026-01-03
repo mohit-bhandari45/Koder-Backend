@@ -7,7 +7,9 @@ import MailService from "../../modules/auth/email.service";
 
 const worker = new Worker(
   "emailQueue",
-  async (job: Job<{ to: string; subject: string; html: string; text: string }>) => {
+  async (
+    job: Job<{ to: string; subject: string; html: string; text: string }>,
+  ) => {
     const { to, subject, html, text } = job.data;
 
     try {

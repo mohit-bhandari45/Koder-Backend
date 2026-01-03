@@ -1,18 +1,25 @@
 import bcrypt from "bcrypt";
 import User from "../shared/user.model";
-import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../utils/jwt.utils";
 import type { IUser } from "../../types/user.types";
 import { OtpService } from "./otp.service";
 import { AppError } from "../../utils/appError.utils";
 
 interface IAuthResponse {
-    user: IUser;
-    accessToken: string;
-    refreshToken: string;
+  user: IUser;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export class UserService {
-  static async register(fullName: string, email: string, password: string): Promise<IAuthResponse> {
+  static async register(
+    fullName: string,
+    email: string,
+    password: string,
+  ): Promise<IAuthResponse> {
     // 🔍 Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -46,7 +53,10 @@ export class UserService {
 
     // 2. Check if password exists (social login users may not have one)
     if (!user.password) {
-      throw new AppError("Account has no password. Use social login or set a password.", 400);
+      throw new AppError(
+        "Account has no password. Use social login or set a password.",
+        400,
+      );
     }
 
     // 3. Compare provided password with hashed password in DB

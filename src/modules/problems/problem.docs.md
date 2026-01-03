@@ -29,7 +29,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -49,7 +49,7 @@ http://localhost:8000
 
 ### Error Response
 
-* **Status**: `500 Internal Server Error`
+- **Status**: `500 Internal Server Error`
 
 ```json
 {
@@ -71,15 +71,13 @@ http://localhost:8000
 {
   "title": "New Problem",
   "description": "Problem description",
-  "testCases": [
-    { "input": "1", "output": "2" }
-  ]
+  "testCases": [{ "input": "1", "output": "2" }]
 }
 ```
 
 ### Success Response
 
-* **Status**: `201 Created`
+- **Status**: `201 Created`
 
 ```json
 {
@@ -90,7 +88,7 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** (Missing required fields)
+- **400 Bad Request** (Missing required fields)
 
 ```json
 {
@@ -98,7 +96,7 @@ http://localhost:8000
 }
 ```
 
-* **500 Internal Server Error**
+- **500 Internal Server Error**
 
 ```json
 {
@@ -121,7 +119,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -137,7 +135,7 @@ http://localhost:8000
 
 ### Error Responses
 
-* **404 Not Found**
+- **404 Not Found**
 
 ```json
 {
@@ -145,7 +143,7 @@ http://localhost:8000
 }
 ```
 
-* **500 Internal Server Error**
+- **500 Internal Server Error**
 
 ```json
 {

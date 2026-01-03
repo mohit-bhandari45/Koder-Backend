@@ -12,7 +12,12 @@ export default class MailService {
     },
   });
 
-  static async sendEmail(to: string, subject: string, html: string, text?: string) {
+  static async sendEmail(
+    to: string,
+    subject: string,
+    html: string,
+    text?: string,
+  ) {
     return this.transporter.sendMail({
       from: `"Koder" <${process.env.EMAIL_USER}>`,
       to,
@@ -46,11 +51,15 @@ export default class MailService {
     // );
 
     /* BULLMQ */
-    const job = await emailQueue.add("email-welcome", { to, subject, html }, {
-      attempts: 3,
-      backoff: 5000,
-      removeOnComplete: true,
-    });
+    const job = await emailQueue.add(
+      "email-welcome",
+      { to, subject, html },
+      {
+        attempts: 3,
+        backoff: 5000,
+        removeOnComplete: true,
+      },
+    );
     console.log(`✅ Email job queued with ID: ${job.id}`);
   }
 }

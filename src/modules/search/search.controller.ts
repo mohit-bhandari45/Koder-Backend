@@ -9,7 +9,10 @@ import { searchProblems } from "./search.service";
  * @query page {number} - Page number (default: 1)
  * @query limit {number} - Results per page (default: 30)
  */
-export async function searchProblemHandler(req: Request, res: Response): Promise<void> {
+export async function searchProblemHandler(
+  req: Request,
+  res: Response,
+): Promise<void> {
   try {
     const query = req.query.q as string;
     const page = parseInt(req.query.page as string) || 1;

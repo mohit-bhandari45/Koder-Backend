@@ -19,14 +19,19 @@ export async function startEmailConsumer() {
 
       try {
         switch (event.type) {
-        case "email-otp":
-        case "email-reset-password":
-        case "email-welcome":
-          await MailService.sendEmail(event.to, event.subject, event.html, event.text);
-          console.log("✅ Email sent to", event.to);
-          break;
-        default:
-          console.warn("⚠️ Unknown email type:", event.type);
+          case "email-otp":
+          case "email-reset-password":
+          case "email-welcome":
+            await MailService.sendEmail(
+              event.to,
+              event.subject,
+              event.html,
+              event.text,
+            );
+            console.log("✅ Email sent to", event.to);
+            break;
+          default:
+            console.warn("⚠️ Unknown email type:", event.type);
         }
       } catch (error) {
         console.error("❌ Failed to send email:", error);

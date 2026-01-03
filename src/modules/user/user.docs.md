@@ -39,14 +39,14 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
   "message": "Username set successfully",
   "data": {
     "_id": "...",
-    "username": "uniqueUser123",
+    "username": "uniqueUser123"
     // other user fields
   }
 }
@@ -54,9 +54,9 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** — Username not provided
-* **409 Conflict** — Username already set or taken
-* **500 Internal Server Error**
+- **400 Bad Request** — Username not provided
+- **409 Conflict** — Username already set or taken
+- **500 Internal Server Error**
 
 ---
 
@@ -77,7 +77,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -87,9 +87,9 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** — Username not provided
-* **409 Conflict** — Username already taken
-* **500 Internal Server Error**
+- **400 Bad Request** — Username not provided
+- **409 Conflict** — Username already taken
+- **500 Internal Server Error**
 
 ---
 
@@ -101,7 +101,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -109,7 +109,7 @@ http://localhost:8000
   "data": {
     "_id": "...",
     "fullName": "John Doe",
-    "email": "john@example.com",
+    "email": "john@example.com"
     // other user fields
   }
 }
@@ -117,9 +117,9 @@ http://localhost:8000
 
 ### Error Responses
 
-* **401 Unauthorized** — Invalid or missing token
-* **404 Not Found** — User not found
-* **500 Internal Server Error**
+- **401 Unauthorized** — Invalid or missing token
+- **404 Not Found** — User not found
+- **500 Internal Server Error**
 
 ---
 
@@ -141,7 +141,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -156,10 +156,10 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** — No fields provided
-* **401 Unauthorized** — Invalid or missing token
-* **404 Not Found** — User not found
-* **500 Internal Server Error**
+- **400 Bad Request** — No fields provided
+- **401 Unauthorized** — Invalid or missing token
+- **404 Not Found** — User not found
+- **500 Internal Server Error**
 
 ---
 
@@ -171,7 +171,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -181,9 +181,9 @@ http://localhost:8000
 
 ### Error Responses
 
-* **401 Unauthorized** — Invalid or missing token
-* **404 Not Found** — User not found
-* **500 Internal Server Error**
+- **401 Unauthorized** — Invalid or missing token
+- **404 Not Found** — User not found
+- **500 Internal Server Error**
 
 ---
 
@@ -205,7 +205,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -215,10 +215,10 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** — Missing fields
-* **401 Unauthorized** — Invalid token or incorrect current password
-* **404 Not Found** — User not found
-* **500 Internal Server Error**
+- **400 Bad Request** — Missing fields
+- **401 Unauthorized** — Invalid token or incorrect current password
+- **404 Not Found** — User not found
+- **500 Internal Server Error**
 
 ---
 
@@ -239,7 +239,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -249,25 +249,25 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** — Invalid or weak password
-* **401 Unauthorized** — Invalid or missing token
-* **404 Not Found** — User not found
-* **409 Conflict** — Password already set
-* **500 Internal Server Error**
+- **400 Bad Request** — Invalid or weak password
+- **401 Unauthorized** — Invalid or missing token
+- **404 Not Found** — User not found
+- **409 Conflict** — Password already set
+- **500 Internal Server Error**
 
 ---
 
 ## 8. Cookie Details
 
-* **accessToken**: HTTP-only, Secure, SameSite=Strict, Expires in 15 minutes
-* **refreshToken**: HTTP-only, Secure, SameSite=Strict, Expires in 7 days
+- **accessToken**: HTTP-only, Secure, SameSite=Strict, Expires in 15 minutes
+- **refreshToken**: HTTP-only, Secure, SameSite=Strict, Expires in 7 days
 
 ---
 
 ## 9. Security Notes
 
-* All sensitive routes require authentication via `accessToken`
-* Passwords are hashed using `bcrypt`
-* CSRF, rate limiting, and input validation are recommended for production
+- All sensitive routes require authentication via `accessToken`
+- Passwords are hashed using `bcrypt`
+- CSRF, rate limiting, and input validation are recommended for production
 
 ---

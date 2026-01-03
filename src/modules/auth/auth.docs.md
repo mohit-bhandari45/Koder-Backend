@@ -44,8 +44,8 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `201 Created`
-* **Cookies**: `accessToken`, `refreshToken`
+- **Status**: `201 Created`
+- **Cookies**: `accessToken`, `refreshToken`
 
 ```json
 {
@@ -57,8 +57,8 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** (User already exists)
-* **500 Internal Server Error**
+- **400 Bad Request** (User already exists)
+- **500 Internal Server Error**
 
 ---
 
@@ -78,8 +78,8 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
-* **Cookies**: `accessToken`, `refreshToken`
+- **Status**: `200 OK`
+- **Cookies**: `accessToken`, `refreshToken`
 
 ```json
 {
@@ -135,11 +135,10 @@ http://localhost:8000
 
 #### Success:
 
-* Sets `accessToken`, `refreshToken` cookies
-* Redirects to:
-
-  * `/u/:username` if user has username
-  * `/auth/username` otherwise
+- Sets `accessToken`, `refreshToken` cookies
+- Redirects to:
+  - `/u/:username` if user has username
+  - `/auth/username` otherwise
 
 #### Failure:
 
@@ -165,11 +164,10 @@ http://localhost:8000
 
 #### Success:
 
-* Sets `accessToken`, `refreshToken` cookies
-* Redirects to:
-
-  * `/u/:username` if user has username
-  * `/auth/username` otherwise
+- Sets `accessToken`, `refreshToken` cookies
+- Redirects to:
+  - `/u/:username` if user has username
+  - `/auth/username` otherwise
 
 #### Failure:
 
@@ -341,16 +339,16 @@ http://localhost:8000
 
 | Cookie       | Description            | Expiry     | HttpOnly | Secure (prod) | SameSite |
 | ------------ | ---------------------- | ---------- | -------- | ------------- | -------- |
-| accessToken  | Short-lived access JWT | 15 minutes | ✅        | ✅             | `lax`    |
-| refreshToken | Long-lived refresh JWT | 7 days     | ✅        | ✅             | `lax`    |
+| accessToken  | Short-lived access JWT | 15 minutes | ✅       | ✅            | `lax`    |
+| refreshToken | Long-lived refresh JWT | 7 days     | ✅       | ✅            | `lax`    |
 
 ---
 
 ## 13. 🔒 Security Notes
 
-* All cookies are set with `HttpOnly`, `Secure` (in production), and `SameSite=lax`.
-* All endpoints validate inputs and return structured error messages.
-* Passwords are hashed using bcrypt before storage.
-* OTPs are valid for 10 minutes and are deleted after use or expiry.
-* Email verification and reset password flows both require OTP confirmation.
-* Always use HTTPS in production.
+- All cookies are set with `HttpOnly`, `Secure` (in production), and `SameSite=lax`.
+- All endpoints validate inputs and return structured error messages.
+- Passwords are hashed using bcrypt before storage.
+- OTPs are valid for 10 minutes and are deleted after use or expiry.
+- Email verification and reset password flows both require OTP confirmation.
+- Always use HTTPS in production.

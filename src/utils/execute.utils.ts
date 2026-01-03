@@ -38,23 +38,23 @@ async function executeCode(code: string, language: string): Promise<string> {
   let command: string;
 
   switch (language) {
-  case "javascript":
-    command = `node ${filePath}`;
-    break;
-  case "python":
-    command = `python3 ${filePath}`;
-    break;
-  case "cpp":
-    command = `g++ ${filePath} -o ${filePath}.out && ${filePath}.out`;
-    break;
-  case "c":
-    command = `gcc ${filePath} -o ${filePath}.out && ${filePath}.out`;
-    break;
-  case "java":
-    command = `javac ${filePath} && java -cp ${tempDir} ${className}`;
-    break;
-  default:
-    throw new Error("Unsupported language");
+    case "javascript":
+      command = `node ${filePath}`;
+      break;
+    case "python":
+      command = `python3 ${filePath}`;
+      break;
+    case "cpp":
+      command = `g++ ${filePath} -o ${filePath}.out && ${filePath}.out`;
+      break;
+    case "c":
+      command = `gcc ${filePath} -o ${filePath}.out && ${filePath}.out`;
+      break;
+    case "java":
+      command = `javac ${filePath} && java -cp ${tempDir} ${className}`;
+      break;
+    default:
+      throw new Error("Unsupported language");
   }
 
   try {
@@ -64,12 +64,12 @@ async function executeCode(code: string, language: string): Promise<string> {
     return error.stderr || error.message || "Execution failed";
   } finally {
     // Clean up files
-    await unlink(filePath).catch(() => { });
+    await unlink(filePath).catch(() => {});
     if (["cpp", "c"].includes(language)) {
-      await unlink(`${filePath}.out`).catch(() => { });
+      await unlink(`${filePath}.out`).catch(() => {});
     }
     if (language === "java" && className) {
-      await unlink(path.join(tempDir, `${className}.class`)).catch(() => { });
+      await unlink(path.join(tempDir, `${className}.class`)).catch(() => {});
     }
   }
 }

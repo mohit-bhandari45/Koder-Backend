@@ -14,7 +14,9 @@ const redis = new Redis({
     }
 
     const delay = Math.min(attempt * 1000, 5000); // backoff: 1s, 2s, 3s...
-    console.warn(`⚠️ Redis reconnect attempt ${attempt}, retrying in ${delay}ms`);
+    console.warn(
+      `⚠️ Redis reconnect attempt ${attempt}, retrying in ${delay}ms`,
+    );
     return delay;
   },
   reconnectOnError: (err) => {

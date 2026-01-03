@@ -38,7 +38,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `201 Created`
+- **Status**: `201 Created`
 
 ```json
 {
@@ -50,9 +50,9 @@ http://localhost:8000
 
 ### Error Responses
 
-* **400 Bad Request** (Missing required fields)
-* **401 Unauthorized** (User not logged in)
-* **500 Internal Server Error**
+- **400 Bad Request** (Missing required fields)
+- **401 Unauthorized** (User not logged in)
+- **500 Internal Server Error**
 
 ---
 
@@ -64,7 +64,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -72,7 +72,9 @@ http://localhost:8000
   "message": "Got all user submissions",
   "data": {
     "submissions": [
-      { /* submission objects */ }
+      {
+        /* submission objects */
+      }
     ],
     "page": 1,
     "totalPages": 5,
@@ -83,8 +85,8 @@ http://localhost:8000
 
 ### Error Responses
 
-* **401 Unauthorized**
-* **500 Internal Server Error**
+- **401 Unauthorized**
+- **500 Internal Server Error**
 
 ---
 
@@ -95,7 +97,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -126,8 +128,8 @@ http://localhost:8000
 
 ### Error Responses
 
-* **401 Unauthorized**
-* **500 Internal Server Error**
+- **401 Unauthorized**
+- **500 Internal Server Error**
 
 ---
 
@@ -138,7 +140,7 @@ http://localhost:8000
 
 ### Success Response
 
-* **Status**: `200 OK`
+- **Status**: `200 OK`
 
 ```json
 {
@@ -167,5 +169,5 @@ http://localhost:8000
 
 ### Error Responses
 
-* **404 Not Found** (Submission not found)
-* **500 Internal Server Error**
+- **404 Not Found** (Submission not found)
+- **500 Internal Server Error**

@@ -242,7 +242,6 @@ int main() {
 }
 `.trim();
 
-
 export const goStarter = `
 /* ============================
    IMPORTS

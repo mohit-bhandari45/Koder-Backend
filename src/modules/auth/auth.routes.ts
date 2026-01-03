@@ -1,7 +1,20 @@
 import { Router } from "express";
 import passport from "passport";
-import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.utils";
-import { forgotPasswordHandler, loginHandler, logoutHandler, refreshTokenHandler, resendOtpHandler, resetPasswordHandler, signupHandler, verifyEmailHandler, verifyResetOtpHandler } from "./auth.controller";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../utils/jwt.utils";
+import {
+  forgotPasswordHandler,
+  loginHandler,
+  logoutHandler,
+  refreshTokenHandler,
+  resendOtpHandler,
+  resetPasswordHandler,
+  signupHandler,
+  verifyEmailHandler,
+  verifyResetOtpHandler,
+} from "./auth.controller";
 import MailService from "./email.service";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -29,11 +42,16 @@ router.get(
   passport.authenticate("github", { scope: ["user:email"] }),
 );
 
-const FRONTEND_REDIRECTION_URL = isProduction ? "https://koder-frontend.vercel.app" : "http://localhost:3000";
+const FRONTEND_REDIRECTION_URL = isProduction
+  ? "https://koder-frontend.vercel.app"
+  : "http://localhost:3000";
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/auth/google/failure", session: false }),
+  passport.authenticate("google", {
+    failureRedirect: "/auth/google/failure",
+    session: false,
+  }),
   async (req, res) => {
     const user = req.user;
     if (!user) {
@@ -53,7 +71,10 @@ router.get(
 
 router.get(
   "/github/callback",
-  passport.authenticate("github", { failureRedirect: "/auth/github/failure", session: false }),
+  passport.authenticate("github", {
+    failureRedirect: "/auth/github/failure",
+    session: false,
+  }),
   async (req: any, res) => {
     const user = req.user;
     if (!user) {

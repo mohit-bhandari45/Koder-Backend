@@ -18,7 +18,8 @@ const submissionSchema = new Schema<ISubmission>(
       required: true,
     },
     language: {
-      type: String, required: true,
+      type: String,
+      required: true,
     },
     status: {
       type: String,

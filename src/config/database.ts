@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    const MONGODB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/koder";
+    const MONGODB_URI =
+      process.env.MONGO_URI || "mongodb://localhost:27017/koder";
     await mongoose.connect(MONGODB_URI);
     console.log("✅ Connected to MongoDB successfully");
   } catch (error) {
@@ -18,4 +19,4 @@ export const disconnectDatabase = async (): Promise<void> => {
   } catch (error) {
     console.error("❌ MongoDB disconnection error:", error);
   }
-}; 
+};
