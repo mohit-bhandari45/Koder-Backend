@@ -1,12 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import os from "os";
 import app from "./app";
 
 const PORT = process.env.PORT || 8000;
 
-// ✅ Add this
 app.get("/health", (req, res) => {
   res.status(200).json({ success: true, timestamp: new Date().toISOString() });
 });
